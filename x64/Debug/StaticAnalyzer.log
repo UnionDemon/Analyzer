@@ -1,0 +1,2 @@
+﻿x64\Debug\Tetrad.obj : warning LNK4042: объект указан более одного раза; лишние не учитываются
+  StaticAnalyzer.vcxproj -> D:\clang\project\StaticAnalyzer\x64\Debug\StaticAnalyzer.exe
