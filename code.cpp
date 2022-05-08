@@ -8,27 +8,28 @@ int a = 10;
 if (*p > 10) {
     print(*p);
     p = nullptr;
-}
-else
-{
+} else {
     *p *= 10;
     a -= *p;
 }
 return *p + 8;
+}*/
+int myFunc() {
+    int p;
+if (p > 10) {
+    p++;
+} 
+return p + 8;
 }
-*/
-
-
+/*
 void print(int x);
 int myFunc() {
     int a = 10;
     int b=5;
     for(a=1; a<=10; a++)
-    {
         b++;
-    }
     return 0;
-}
+}*/
 
 /*
 int nod(int first, int second)
@@ -39,8 +40,20 @@ int nod(int first, int second)
 		else
 			first -= second;
 	return first;
-}
-*/
+}*/
 
-//int a = 10;
-//int *pa = &a;
+/*
+int main ()
+{
+  int firstvalue = 5, secondvalue = 15;
+  int * p1, * p2;
+  
+  p1 = &firstvalue;
+  p2 = &secondvalue;
+  *p1 = 10;
+  *p2 = *p1;
+  p1 = p2;           
+  *p1 = 20;        
+  
+  return 0;
+}*/

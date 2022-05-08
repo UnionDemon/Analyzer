@@ -1,30 +1,41 @@
 #include <list>
 #include <unordered_map>
-
+#include "clang/AST/AST.h"
 #include "clang/AST/Stmt.h"
+#include<string>
 
 using namespace clang;
 
-enum OperationType {
+enum class OperationType {
 	jmp,
 	jmpOnFalse,
 	label,
+	dereference,
 	other
 };
 
-enum OperandSource {
+enum class OperandSource {
 	stack,
 	object
+};
+
+enum class OperandType {
+	pointer,
+	other
 };
 
 class Operand {
 private:
 	OperandSource source;
+	OperandType typeop;
+	std::string variable;
 	Stmt* astNode;
 public:
-	Operand(OperandSource src, Stmt* nd);
+	Operand(OperandSource src, OperandType type, std::string var, Stmt* nd);
 
 	Stmt* getAstNode();
+	OperandType getTypeOp();
+	std::string getVarName();
 	void print();
 };
 
@@ -53,10 +64,14 @@ private:
 	void jmpIfStmt(IfStmt* st);
 	int findEndIfStmt(IfStmt* st);
 	void handleForStmt(ForStmt* st);
-	int findEndForStmt(ForStmt* st);
-	void jmpForStmt(ForStmt* st);
-	int firstLabelMarkerFor(ForStmt* st);
-
+	int findEndCycleStmt(Stmt* st);
+	void makeJmpTetrad(Stmt* st, Stmt* cond);
+	int firstLabelMarker(Stmt* st, Stmt* cond);
+	void handleWhileStmt(WhileStmt* st);
+	void makeJmpOnFalseTetrad(Stmt* st, int labelNumber);
+	void handleUnaryOperator(UnaryOperator* unary_op);
+	void handleDeclRefExpr(DeclRefExpr* expr);
+	void handleImplicitCastExpr(ImplicitCastExpr* expr);
 public:
 	void handleStatement(Stmt* st);
 	void print();

@@ -1,2 +1,412 @@
-﻿x64\Debug\Tetrad.obj : warning LNK4042: объект указан более одного раза; лишние не учитываются
+﻿  Tetrad.cpp
+D:\clang\llvm-project\llvm\include\llvm\Support\SwapByteOrder.h(115,23): warning C4244: return: преобразование "uint64_t" в "unsigned long", возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\Support\SwapByteOrder.h(120,23): warning C4244: return: преобразование "uint64_t" в "long", возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\ADT\Hashing.h(684,1): warning C4267: return: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\Support\type_traits.h(79,1): warning C4624: "llvm::detail::copy_construction_triviality_helper<T>": деструктор неявно определен как удаленный
+          with
+          [
+              T=clang::FixItHint
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\type_traits(631): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::detail::copy_construction_triviality_helper<T>"
+          with
+          [
+              T=clang::FixItHint
+          ]
+D:\clang\llvm-project\llvm\include\llvm\Support\type_traits.h(100): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::is_copy_constructible<llvm::detail::copy_construction_triviality_helper<T>>"
+          with
+          [
+              T=clang::FixItHint
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(308): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::is_trivially_copy_constructible<T>"
+          with
+          [
+              T=clang::FixItHint
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(1182): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::SmallVectorImpl<T>"
+          with
+          [
+              T=clang::FixItHint
+          ]
+D:\clang\llvm-project\clang\include\clang\Basic\Diagnostic.h(180): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::SmallVector<clang::FixItHint,6>"
+D:\clang\llvm-project\llvm\include\llvm\Support\type_traits.h(86,1): warning C4624: "llvm::detail::move_construction_triviality_helper<T>": деструктор неявно определен как удаленный
+          with
+          [
+              T=clang::FixItHint
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\type_traits(662): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::detail::move_construction_triviality_helper<T>"
+          with
+          [
+              T=clang::FixItHint
+          ]
+D:\clang\llvm-project\llvm\include\llvm\Support\type_traits.h(111): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::is_move_constructible<llvm::detail::move_construction_triviality_helper<T>>"
+          with
+          [
+              T=clang::FixItHint
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(309): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::is_trivially_move_constructible<T>"
+          with
+          [
+              T=clang::FixItHint
+          ]
+D:\clang\llvm-project\clang\include\clang\Basic\Diagnostic.h(1628,1): warning C4267: return: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\Basic\Diagnostic.h(1643,1): warning C4267: return: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\Basic\Diagnostic.h(1703,31): warning C4267: return: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\Basic\Diagnostic.h(1713,31): warning C4267: return: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\AST\NestedNameSpecifier.h(550,1): warning C4267: return: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\AST\APValue.h(81,50): warning C4244: =: преобразование "uintptr_t" в "unsigned int", возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\Basic\IdentifierTable.h(192,30): warning C4267: return: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\Support\type_traits.h(79,1): warning C4624: "llvm::detail::copy_construction_triviality_helper<T>": деструктор неявно определен как удаленный
+          with
+          [
+              T=std::unique_ptr<clang::OMPTraitInfo,std::default_delete<clang::OMPTraitInfo>>
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\type_traits(631): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::detail::copy_construction_triviality_helper<T>"
+          with
+          [
+              T=std::unique_ptr<clang::OMPTraitInfo,std::default_delete<clang::OMPTraitInfo>>
+          ]
+D:\clang\llvm-project\llvm\include\llvm\Support\type_traits.h(100): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::is_copy_constructible<llvm::detail::copy_construction_triviality_helper<T>>"
+          with
+          [
+              T=std::unique_ptr<clang::OMPTraitInfo,std::default_delete<clang::OMPTraitInfo>>
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(308): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::is_trivially_copy_constructible<T>"
+          with
+          [
+              T=std::unique_ptr<clang::OMPTraitInfo,std::default_delete<clang::OMPTraitInfo>>
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(1182): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::SmallVectorImpl<T>"
+          with
+          [
+              T=std::unique_ptr<clang::OMPTraitInfo,std::default_delete<clang::OMPTraitInfo>>
+          ]
+D:\clang\llvm-project\clang\include\clang\AST\ASTContext.h(3298): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::SmallVector<std::unique_ptr<clang::OMPTraitInfo,std::default_delete<clang::OMPTraitInfo>>,4>"
+D:\clang\llvm-project\llvm\include\llvm\Support\type_traits.h(86,1): warning C4624: "llvm::detail::move_construction_triviality_helper<T>": деструктор неявно определен как удаленный
+          with
+          [
+              T=std::unique_ptr<clang::OMPTraitInfo,std::default_delete<clang::OMPTraitInfo>>
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\type_traits(662): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::detail::move_construction_triviality_helper<T>"
+          with
+          [
+              T=std::unique_ptr<clang::OMPTraitInfo,std::default_delete<clang::OMPTraitInfo>>
+          ]
+D:\clang\llvm-project\llvm\include\llvm\Support\type_traits.h(111): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::is_move_constructible<llvm::detail::move_construction_triviality_helper<T>>"
+          with
+          [
+              T=std::unique_ptr<clang::OMPTraitInfo,std::default_delete<clang::OMPTraitInfo>>
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(309): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::is_trivially_move_constructible<T>"
+          with
+          [
+              T=std::unique_ptr<clang::OMPTraitInfo,std::default_delete<clang::OMPTraitInfo>>
+          ]
+D:\clang\llvm-project\clang\include\clang\AST\ASTContext.h(3351,37): warning C4267: аргумент: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\AST\ASTContext.h(3389,37): warning C4267: аргумент: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\AST\UnresolvedSet.h(127,25): warning C4267: return: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\AST\ASTUnresolvedSet.h(77,25): warning C4267: return: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\AST\TemplateBase.h(231,1): warning C4267: =: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\AST\TemplateBase.h(585,25): warning C4267: return: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\AST\Expr.h(2400,17): warning C4244: return: преобразование "uintptr_t" в "unsigned int", возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\AST\Expr.h(4822,32): warning C4267: return: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\AST\TypeLoc.h(950,1): warning C4267: return: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\AST\DeclCXX.h(120,1): warning C4291: void *clang::Decl::operator new(size_t,const clang::ASTContext &,clang::DeclContext *,size_t): не найден соответствующий оператор удаления; если при инициализации возникнет исключение, память не будет освобождена
+D:\clang\llvm-project\clang\include\clang\AST\DeclBase.h(345): message : см. объявление "clang::Decl::operator new"
+D:\clang\llvm-project\clang\include\clang\AST\DeclCXX.h(3126,1): warning C4291: void *clang::Decl::operator new(size_t,const clang::ASTContext &,clang::DeclContext *,size_t): не найден соответствующий оператор удаления; если при инициализации возникнет исключение, память не будет освобождена
+D:\clang\llvm-project\clang\include\clang\AST\DeclBase.h(345): message : см. объявление "clang::Decl::operator new"
+D:\clang\llvm-project\clang\include\clang\AST\DeclCXX.h(3130,1): warning C4291: void *clang::Decl::operator new(size_t,const clang::ASTContext &,unsigned int,size_t): не найден соответствующий оператор удаления; если при инициализации возникнет исключение, память не будет освобождена
+D:\clang\llvm-project\clang\include\clang\AST\DeclBase.h(341): message : см. объявление "clang::Decl::operator new"
+D:\clang\llvm-project\clang\include\clang\AST\DeclCXX.h(3229,1): warning C4291: void *clang::Decl::operator new(size_t,const clang::ASTContext &,clang::DeclContext *,size_t): не найден соответствующий оператор удаления; если при инициализации возникнет исключение, память не будет освобождена
+D:\clang\llvm-project\clang\include\clang\AST\DeclBase.h(345): message : см. объявление "clang::Decl::operator new"
+D:\clang\llvm-project\clang\include\clang\AST\DeclCXX.h(3365,25): warning C4244: return: преобразование "__int64" в "unsigned int", возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\AST\DeclCXX.h(3663,1): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\AST\DeclCXX.h(4030,1): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\AST\DeclObjC.h(1455,25): warning C4244: return: преобразование "__int64" в "unsigned int", возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\AST\DeclObjC.h(2399,25): warning C4244: return: преобразование "__int64" в "unsigned int", возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\AST\DeclObjC.h(2705,25): warning C4244: return: преобразование "__int64" в "unsigned int", возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\AST\DeclTemplate.h(269,32): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\AST\DeclTemplate.h(1780,1): warning C4291: void *clang::Decl::operator new(size_t,const clang::ASTContext &,clang::DeclContext *,size_t): не найден соответствующий оператор удаления; если при инициализации возникнет исключение, память не будет освобождена
+D:\clang\llvm-project\clang\include\clang\AST\DeclBase.h(345): message : см. объявление "clang::Decl::operator new"
+D:\clang\llvm-project\clang\include\clang\AST\DeclTemplate.h(2467,1): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\AST\DeclTemplate.h(2637,1): warning C4291: void *clang::Decl::operator new(size_t,const clang::ASTContext &,clang::DeclContext *,size_t): не найден соответствующий оператор удаления; если при инициализации возникнет исключение, память не будет освобождена
+D:\clang\llvm-project\clang\include\clang\AST\DeclBase.h(345): message : см. объявление "clang::Decl::operator new"
+D:\clang\llvm-project\clang\include\clang\AST\ExprCXX.h(4166,1): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\ADT\BitVector.h(373,16): warning C4244: =: преобразование "uint64_t" в "unsigned int", возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\ADT\BitVector.h(412,16): warning C4244: =: преобразование "uint64_t" в "unsigned int", возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\ADT\BitVector.h(483,1): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\ADT\BitVector.h(484,1): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\ADT\BitVector.h(495,1): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\ADT\BitVector.h(503,1): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\ADT\BitVector.h(504,1): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\ADT\BitVector.h(520,1): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\ADT\BitVector.h(521,1): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\ADT\BitVector.h(530,1): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\ADT\BitVector.h(531,1): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\ADT\BitVector.h(561,1): warning C4267: инициализация: преобразование из "size_t" в "llvm::BitVector::size_type"; возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\ADT\BitVector.h(569,1): warning C4267: инициализация: преобразование из "size_t" в "llvm::BitVector::size_type"; возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\ADT\BitVector.h(579,1): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\ADT\BitVector.h(628,1): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\ADT\BitVector.h(741,1): warning C4267: инициализация: преобразование из "size_t" в "uint32_t"; возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\ADT\BitVector.h(759,1): warning C4267: инициализация: преобразование из "size_t" в "uint32_t"; возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\ADT\BitVector.h(824,35): warning C4267: return: преобразование из "size_t" в "llvm::BitVector::size_type"; возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\ADT\BitVector.h(825,36): warning C4267: return: преобразование из "size_t" в "llvm::BitVector::size_type"; возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\Frontend\OpenMP\OMPContext.h(202,33): warning C4267: return: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\Support\type_traits.h(79,1): warning C4624: "llvm::detail::copy_construction_triviality_helper<T>": деструктор неявно определен как удаленный
+          with
+          [
+              T=clang::OMPTraitSelector
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\type_traits(631): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::detail::copy_construction_triviality_helper<T>"
+          with
+          [
+              T=clang::OMPTraitSelector
+          ]
+D:\clang\llvm-project\llvm\include\llvm\Support\type_traits.h(100): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::is_copy_constructible<llvm::detail::copy_construction_triviality_helper<T>>"
+          with
+          [
+              T=clang::OMPTraitSelector
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(308): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::is_trivially_copy_constructible<T>"
+          with
+          [
+              T=clang::OMPTraitSelector
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(1182): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::SmallVectorImpl<T>"
+          with
+          [
+              T=clang::OMPTraitSelector
+          ]
+D:\clang\llvm-project\clang\include\clang\AST\OpenMPClause.h(8689): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::SmallVector<clang::OMPTraitSelector,2>"
+D:\clang\llvm-project\llvm\include\llvm\Support\type_traits.h(86,1): warning C4624: "llvm::detail::move_construction_triviality_helper<T>": деструктор неявно определен как удаленный
+          with
+          [
+              T=clang::OMPTraitSelector
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\type_traits(662): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::detail::move_construction_triviality_helper<T>"
+          with
+          [
+              T=clang::OMPTraitSelector
+          ]
+D:\clang\llvm-project\llvm\include\llvm\Support\type_traits.h(111): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::is_move_constructible<llvm::detail::move_construction_triviality_helper<T>>"
+          with
+          [
+              T=clang::OMPTraitSelector
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(309): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::is_trivially_move_constructible<T>"
+          with
+          [
+              T=clang::OMPTraitSelector
+          ]
+D:\clang\llvm-project\llvm\include\llvm\Support\type_traits.h(79,1): warning C4624: "llvm::detail::copy_construction_triviality_helper<T>": деструктор неявно определен как удаленный
+          with
+          [
+              T=clang::OMPTraitSet
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\type_traits(631): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::detail::copy_construction_triviality_helper<T>"
+          with
+          [
+              T=clang::OMPTraitSet
+          ]
+D:\clang\llvm-project\llvm\include\llvm\Support\type_traits.h(100): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::is_copy_constructible<llvm::detail::copy_construction_triviality_helper<T>>"
+          with
+          [
+              T=clang::OMPTraitSet
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(308): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::is_trivially_copy_constructible<T>"
+          with
+          [
+              T=clang::OMPTraitSet
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(1182): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::SmallVectorImpl<T>"
+          with
+          [
+              T=clang::OMPTraitSet
+          ]
+D:\clang\llvm-project\clang\include\clang\AST\OpenMPClause.h(8707): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::SmallVector<clang::OMPTraitSet,2>"
+D:\clang\llvm-project\llvm\include\llvm\Support\type_traits.h(86,1): warning C4624: "llvm::detail::move_construction_triviality_helper<T>": деструктор неявно определен как удаленный
+          with
+          [
+              T=clang::OMPTraitSet
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\type_traits(662): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::detail::move_construction_triviality_helper<T>"
+          with
+          [
+              T=clang::OMPTraitSet
+          ]
+D:\clang\llvm-project\llvm\include\llvm\Support\type_traits.h(111): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::is_move_constructible<llvm::detail::move_construction_triviality_helper<T>>"
+          with
+          [
+              T=clang::OMPTraitSet
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(309): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::is_trivially_move_constructible<T>"
+          with
+          [
+              T=clang::OMPTraitSet
+          ]
+D:\clang\llvm-project\clang\include\clang\AST\OpenMPClause.h(8876,1): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\AST\TypeLoc.h(432,25): warning C4244: =: преобразование "uint64_t" в "unsigned int", возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\AST\TypeLoc.h(429): message : во время компиляции функции-члена класс шаблон "void *clang::ConcreteTypeLoc<clang::UnqualTypeLoc,clang::DependentTemplateSpecializationTypeLoc,clang::DependentTemplateSpecializationType,clang::DependentTemplateSpecializationLocInfo>::getExtraLocalData(void) const"
+D:\clang\llvm-project\clang\include\clang\AST\TypeLoc.h(2467): message : выполняется компиляция ссылки на экземпляр шаблон функции "void *clang::ConcreteTypeLoc<clang::UnqualTypeLoc,clang::DependentTemplateSpecializationTypeLoc,clang::DependentTemplateSpecializationType,clang::DependentTemplateSpecializationLocInfo>::getExtraLocalData(void) const"
+D:\clang\llvm-project\clang\include\clang\AST\TypeLoc.h(2356): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "clang::ConcreteTypeLoc<clang::UnqualTypeLoc,clang::DependentTemplateSpecializationTypeLoc,clang::DependentTemplateSpecializationType,clang::DependentTemplateSpecializationLocInfo>"
+D:\clang\llvm-project\llvm\include\llvm\ADT\StringMap.h(129,1): warning C4267: аргумент: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\ADT\StringMap.h(129): message : во время компиляции функции-члена класс шаблон "llvm::StringMap<clang::TargetCXXABI::Kind,llvm::MallocAllocator>::StringMap(std::initializer_list<std::pair<llvm::StringRef,ValueTy>>)"
+          with
+          [
+              ValueTy=clang::TargetCXXABI::Kind
+          ]
+D:\clang\llvm-project\clang\include\clang\Basic\TargetCXXABI.h(43): message : выполняется компиляция ссылки на экземпляр шаблон функции "llvm::StringMap<clang::TargetCXXABI::Kind,llvm::MallocAllocator>::StringMap(std::initializer_list<std::pair<llvm::StringRef,ValueTy>>)"
+          with
+          [
+              ValueTy=clang::TargetCXXABI::Kind
+          ]
+D:\clang\llvm-project\clang\include\clang\Basic\TargetCXXABI.h(43): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::StringMap<clang::TargetCXXABI::Kind,llvm::MallocAllocator>"
+D:\clang\llvm-project\llvm\include\llvm\Support\Allocator.h(277,51): warning C4244: аргумент: преобразование "__int64" в "unsigned int", возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\Support\Allocator.h(274): message : во время компиляции функции-члена класс шаблон "size_t llvm::BumpPtrAllocatorImpl<llvm::MallocAllocator,4096,4096,128>::getTotalMemory(void) const"
+D:\clang\llvm-project\clang\include\clang\AST\ASTContext.h(753): message : выполняется компиляция ссылки на экземпляр шаблон функции "size_t llvm::BumpPtrAllocatorImpl<llvm::MallocAllocator,4096,4096,128>::getTotalMemory(void) const"
+D:\clang\llvm-project\llvm\include\llvm\Support\Allocator.h(375): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::BumpPtrAllocatorImpl<llvm::MallocAllocator,4096,4096,128>"
+D:\clang\llvm-project\llvm\include\llvm\Support\Allocator.h(425): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::SpecificBumpPtrAllocator<T>"
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(82,1): warning C4267: =: преобразование из "size_t" в "Size_T"; возможна потеря данных
+          with
+          [
+              Size_T=unsigned int
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(80): message : во время компиляции функции-члена класс шаблон "void llvm::SmallVectorBase<unsigned int>::set_size(size_t)"
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(545): message : выполняется компиляция ссылки на экземпляр шаблон функции "void llvm::SmallVectorBase<unsigned int>::set_size(size_t)"
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(103): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::SmallVectorBase<unsigned int>"
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(455): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::SmallVectorTemplateCommon<T,void>"
+          with
+          [
+              T=clang::CharSourceRange
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(554): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::SmallVectorTemplateBase<T,true>"
+          with
+          [
+              T=clang::CharSourceRange
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(1182): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::SmallVectorImpl<T>"
+          with
+          [
+              T=clang::CharSourceRange
+          ]
+D:\clang\llvm-project\clang\include\clang\Basic\Diagnostic.h(176): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::SmallVector<clang::CharSourceRange,8>"
+D:\clang\llvm-project\clang\include\clang\AST\TypeLoc.h(386,25): warning C4244: =: преобразование "uint64_t" в "unsigned int", возможна потеря данных
+D:\clang\llvm-project\clang\include\clang\AST\TypeLoc.h(383): message : во время компиляции функции-члена класс шаблон "unsigned int clang::ConcreteTypeLoc<clang::UnqualTypeLoc,clang::PipeTypeLoc,clang::PipeType,clang::PipeTypeLocInfo>::getLocalDataSize(void) const"
+D:\clang\llvm-project\clang\include\clang\AST\TypeLoc.h(438): message : выполняется компиляция ссылки на экземпляр шаблон функции "unsigned int clang::ConcreteTypeLoc<clang::UnqualTypeLoc,clang::PipeTypeLoc,clang::PipeType,clang::PipeTypeLocInfo>::getLocalDataSize(void) const"
+D:\clang\llvm-project\clang\include\clang\AST\TypeLoc.h(2568): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "clang::ConcreteTypeLoc<clang::UnqualTypeLoc,clang::PipeTypeLoc,clang::PipeType,clang::PipeTypeLocInfo>"
+D:\clang\llvm-project\llvm\include\llvm\ADT\DenseMap.h(393,24): warning C4244: return: преобразование "uint64_t" в "unsigned int", возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\ADT\DenseMap.h(387): message : во время компиляции функции-члена класс шаблон "unsigned int llvm::DenseMapBase<llvm::DenseMap<clang::RawComment *,unsigned int,llvm::DenseMapInfo<KeyT,void>,llvm::detail::DenseMapPair<KeyT,ValueT>>,KeyT,ValueT,KeyInfoT,BucketT>::getMinBucketToReserveForEntries(unsigned int)"
+          with
+          [
+              KeyT=clang::RawComment *,
+              ValueT=unsigned int,
+              KeyInfoT=llvm::DenseMapInfo<clang::RawComment *,void>,
+              BucketT=llvm::detail::DenseMapPair<clang::RawComment *,unsigned int>
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\DenseMap.h(794): message : выполняется компиляция ссылки на экземпляр шаблон функции "unsigned int llvm::DenseMapBase<llvm::DenseMap<clang::RawComment *,unsigned int,llvm::DenseMapInfo<KeyT,void>,llvm::detail::DenseMapPair<KeyT,ValueT>>,KeyT,ValueT,KeyInfoT,BucketT>::getMinBucketToReserveForEntries(unsigned int)"
+          with
+          [
+              KeyT=clang::RawComment *,
+              ValueT=unsigned int,
+              KeyInfoT=llvm::DenseMapInfo<clang::RawComment *,void>,
+              BucketT=llvm::detail::DenseMapPair<clang::RawComment *,unsigned int>
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\DenseMap.h(716): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::DenseMapBase<llvm::DenseMap<clang::RawComment *,unsigned int,llvm::DenseMapInfo<KeyT,void>,llvm::detail::DenseMapPair<KeyT,ValueT>>,KeyT,ValueT,KeyInfoT,BucketT>"
+          with
+          [
+              KeyT=clang::RawComment *,
+              ValueT=unsigned int,
+              KeyInfoT=llvm::DenseMapInfo<clang::RawComment *,void>,
+              BucketT=llvm::detail::DenseMapPair<clang::RawComment *,unsigned int>
+          ]
+D:\clang\llvm-project\clang\include\clang\AST\RawCommentList.h(201): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::DenseMap<clang::RawComment *,unsigned int,llvm::DenseMapInfo<KeyT,void>,llvm::detail::DenseMapPair<KeyT,ValueT>>"
+          with
+          [
+              KeyT=clang::RawComment *,
+              ValueT=unsigned int
+          ]
+D:\clang\llvm-project\llvm\include\llvm\Support\Allocator.h(330,1): warning C4267: аргумент: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\Support\Allocator.h(329): message : во время компиляции функции-члена класс шаблон "void llvm::BumpPtrAllocatorImpl<llvm::MallocAllocator,4096,4096,128>::StartNewSlab(void)"
+D:\clang\llvm-project\llvm\include\llvm\Support\Allocator.h(188): message : выполняется компиляция ссылки на экземпляр шаблон функции "void llvm::BumpPtrAllocatorImpl<llvm::MallocAllocator,4096,4096,128>::StartNewSlab(void)"
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(57,26): warning C4267: инициализация: преобразование из "size_t" в "Size_T"; возможна потеря данных
+          with
+          [
+              Size_T=unsigned int
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(56): message : во время компиляции функции-члена класс шаблон "llvm::SmallVectorBase<unsigned int>::SmallVectorBase(void *,size_t)"
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(117): message : выполняется компиляция ссылки на экземпляр шаблон функции "llvm::SmallVectorBase<unsigned int>::SmallVectorBase(void *,size_t)"
+D:\clang\llvm-project\llvm\include\llvm\ADT\BitmaskEnum.h(84,51): warning C4244: return: преобразование "uint64_t" в "unsigned char", возможна потеря данных
+D:\clang\llvm-project\llvm\include\llvm\ADT\BitmaskEnum.h(103): message : выполняется компиляция ссылки на экземпляр шаблон функции "unsigned char llvm::BitmaskEnumDetail::Mask<E>(void)"
+          with
+          [
+              E=clang::ExprDependenceScope::ExprDependence
+          ]
+D:\clang\llvm-project\clang\include\clang\AST\DependenceFlags.h(246): message : выполняется компиляция ссылки на экземпляр шаблон функции "E llvm::BitmaskEnumDetail::operator ~<clang::ExprDependenceScope::ExprDependence,void>(E)"
+          with
+          [
+              E=clang::ExprDependenceScope::ExprDependence
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\DenseMap.h(1044,52): warning C4244: аргумент: преобразование "uint64_t" в "const _Ty", возможна потеря данных
+          with
+          [
+              _Ty=unsigned int
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\DenseMap.h(1042): message : во время компиляции функции-члена класс шаблон "void llvm::SmallDenseMap<llvm::omp::TraitProperty,llvm::APInt,4,llvm::DenseMapInfo<KeyT,void>,llvm::detail::DenseMapPair<KeyT,ValueT>>::grow(unsigned int)"
+          with
+          [
+              KeyT=llvm::omp::TraitProperty,
+              ValueT=llvm::APInt
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\DenseMap.h(538): message : выполняется компиляция ссылки на экземпляр шаблон функции "void llvm::SmallDenseMap<llvm::omp::TraitProperty,llvm::APInt,4,llvm::DenseMapInfo<KeyT,void>,llvm::detail::DenseMapPair<KeyT,ValueT>>::grow(unsigned int)"
+          with
+          [
+              KeyT=llvm::omp::TraitProperty,
+              ValueT=llvm::APInt
+          ]
+D:\clang\llvm-project\llvm\include\llvm\Frontend\OpenMP\OMPContext.h(151): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::SmallDenseMap<llvm::omp::TraitProperty,llvm::APInt,4,llvm::DenseMapInfo<KeyT,void>,llvm::detail::DenseMapPair<KeyT,ValueT>>"
+          with
+          [
+              KeyT=llvm::omp::TraitProperty,
+              ValueT=llvm::APInt
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(447,1): warning C4267: =: преобразование из "size_t" в "Size_T"; возможна потеря данных
+          with
+          [
+              Size_T=unsigned int
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(441): message : во время компиляции функции-члена класс шаблон "void llvm::SmallVectorTemplateBase<T,false>::takeAllocationForGrow(T *,size_t)"
+          with
+          [
+              T=clang::FixItHint
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(424): message : выполняется компиляция ссылки на экземпляр шаблон функции "void llvm::SmallVectorTemplateBase<T,false>::takeAllocationForGrow(T *,size_t)"
+          with
+          [
+              T=clang::FixItHint
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(420): message : во время компиляции функции-члена класс шаблон "void llvm::SmallVectorTemplateBase<T,false>::grow(size_t)"
+          with
+          [
+              T=clang::FixItHint
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(1023): message : выполняется компиляция ссылки на экземпляр шаблон функции "void llvm::SmallVectorTemplateBase<T,false>::grow(size_t)"
+          with
+          [
+              T=clang::FixItHint
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(992): message : во время компиляции функции-члена класс шаблон "llvm::SmallVectorImpl<T> &llvm::SmallVectorImpl<T>::operator =(const llvm::SmallVectorImpl<T> &)"
+          with
+          [
+              T=clang::FixItHint
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(1221): message : выполняется компиляция ссылки на экземпляр шаблон функции "llvm::SmallVectorImpl<T> &llvm::SmallVectorImpl<T>::operator =(const llvm::SmallVectorImpl<T> &)"
+          with
+          [
+              T=clang::FixItHint
+          ]
+D:\clang\llvm-project\llvm\include\llvm\ADT\SmallVector.h(1182): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::SmallVectorImpl<T>"
+          with
+          [
+              T=clang::FixItHint
+          ]
+D:\clang\llvm-project\clang\include\clang\Basic\Diagnostic.h(180): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "llvm::SmallVector<clang::FixItHint,6>"
   StaticAnalyzer.vcxproj -> D:\clang\project\StaticAnalyzer\x64\Debug\StaticAnalyzer.exe
