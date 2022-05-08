@@ -64,6 +64,8 @@ private:
 	void jmpIfStmt(IfStmt* st);
 	int findEndIfStmt(IfStmt* st);
 	void handleForStmt(ForStmt* st);
+	int findOrMakeLabel(Stmt* st);
+	void insertForJumpBeforeLabel(int toLabel, int beforeLabel);
 	int findEndCycleStmt(Stmt* st);
 	void makeJmpTetrad(Stmt* st, Stmt* cond);
 	int firstLabelMarker(Stmt* st, Stmt* cond);

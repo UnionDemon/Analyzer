@@ -136,6 +136,7 @@ int pseudoCodeGenerator::countChildren(Stmt* st)
 	return childrenCount;
 }
 
+/*поиск в левом поддереве
 Stmt* pseudoCodeGenerator::findFirst(Stmt* st)
 {
 	if (countChildren(st) == 0)
@@ -148,8 +149,25 @@ Stmt* pseudoCodeGenerator::findFirst(Stmt* st)
 	{
 		return st;
 	}
-	
+
 	return findFirst(firstChild);
+}*/
+
+Stmt* pseudoCodeGenerator::findFirst(Stmt* st)
+{
+	if (countChildren(st) == 0)
+	{
+		return nullptr;
+	}
+
+	for (auto it = st->child_begin(); it != st->child_end(); it++)
+	{
+		Stmt* first = findFirst(*it);
+		if (first != nullptr)
+			return first;
+	}
+
+	return st;
 }
 
 void pseudoCodeGenerator::handleCompoundStmt(CompoundStmt* st)
@@ -183,6 +201,26 @@ void pseudoCodeGenerator::handleIfStmt(IfStmt* st)
 	makeJmpOnFalseTetrad(condStmt, labelNumberElse);
 
 	jmpIfStmt(st);
+
+	//вложенность
+	Tetrad* tetrad = new Tetrad();
+	tetrad->labelNumber = labelCounter++;
+	tetrad->operation = OperationType::label;
+	tetrad->astNode = st;
+	Stmt* ifBegin = findFirst(st);
+	auto itBegin = pseudoCode.end();
+	for (auto it = pseudoCode.begin(); it != pseudoCode.end(); it++)
+	{
+		if ((*it)->astNode == ifBegin)
+		{
+			itBegin = it;
+		}
+	}
+	if ((*itBegin)->operation == OperationType::label)
+	{
+		return;
+	}
+	pseudoCode.insert(itBegin, tetrad);
 }
 
 int pseudoCodeGenerator::findElse(IfStmt* st)
@@ -237,7 +275,6 @@ void pseudoCodeGenerator::jmpIfStmt(IfStmt* st)
 	Tetrad* tetrad = new Tetrad();
 	tetrad->operation = OperationType::jmp;
 	tetrad->labelNumber = labelNumberEnd;
-	
 
 	auto ifElse = pseudoCode.end();
 	for (auto it = pseudoCode.begin(); it != pseudoCode.end(); it++)
@@ -274,7 +311,70 @@ void pseudoCodeGenerator::handleForStmt(ForStmt* st)
 	Stmt* condStmt = (Stmt*)st->getCond();
 	makeJmpOnFalseTetrad(condStmt, labelNumberEndForStmt);
 
-	makeJmpTetrad(st, condStmt);
+	Stmt* bodyStmt = st->getBody();
+	int labelBody = findOrMakeLabel(bodyStmt);
+
+	Stmt* conditionBegin = findFirst(condStmt);
+	int labelCond = findOrMakeLabel(conditionBegin);
+
+	Stmt* incStmt = (Stmt*)st->getInc();
+	Stmt* incBegin = findFirst(incStmt);
+	int labelInc = findOrMakeLabel(incBegin);
+
+	insertForJumpBeforeLabel(labelBody, labelInc);
+	insertForJumpBeforeLabel(labelInc, labelNumberEndForStmt);
+	insertForJumpBeforeLabel(labelCond, labelBody);
+
+}
+
+int pseudoCodeGenerator::findOrMakeLabel(Stmt* st)
+{
+	auto bodyBegin = pseudoCode.end();
+	for (auto it = pseudoCode.begin(); it != pseudoCode.end(); it++)
+	{
+		if ((*it)->astNode == st)
+		{
+			bodyBegin = it;
+			break;
+		}
+	}
+
+	if (bodyBegin == pseudoCode.end())
+	{
+		return -1;
+	}
+
+	if ((*bodyBegin)->operation == OperationType::label)
+	{
+		return (*bodyBegin)->labelNumber;
+	}
+
+	Tetrad* tetrad = new Tetrad();
+	tetrad->operation = OperationType::label;
+	tetrad->labelNumber = labelCounter++;
+	pseudoCode.insert(bodyBegin, tetrad);
+	return tetrad->labelNumber;
+}
+
+void pseudoCodeGenerator::insertForJumpBeforeLabel(int toLabel, int beforeLabel)
+{
+	auto beforeLabelIterator = pseudoCode.end();
+	for (auto it = pseudoCode.begin(); it != pseudoCode.end(); it++)
+	{
+		if (((*it)->labelNumber == beforeLabel) && (*it)->operation == OperationType::label)
+		{
+			beforeLabelIterator = it;
+			break;
+		}
+	}
+	if (beforeLabelIterator == pseudoCode.end())
+	{
+		return;
+	}
+	Tetrad* tetrad = new Tetrad();
+	tetrad->operation = OperationType::jmp;
+	tetrad->labelNumber = toLabel;
+	pseudoCode.insert(beforeLabelIterator, tetrad);
 }
 
 //конец ForStmt

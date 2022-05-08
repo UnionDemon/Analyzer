@@ -14,13 +14,18 @@ if (*p > 10) {
 }
 return *p + 8;
 }*/
+/*
 int myFunc() {
-    int p;
-if (p > 10) {
-    p++;
-} 
-return p + 8;
-}
+    int p, b, a;
+    a=7;
+    for (p=1; p < b; p =  p + b) 
+        if (a<10)
+        b++;
+    
+        
+return b + 8;
+}*/
+
 /*
 void print(int x);
 int myFunc() {
@@ -29,6 +34,14 @@ int myFunc() {
     for(a=1; a<=10; a++)
         b++;
     return 0;
+}*/
+/*
+int test(int a, int b) {
+if (b != 0)
+a = a + 10 * a + a * 5;
+
+
+return a;
 }*/
 
 /*
@@ -40,8 +53,8 @@ int nod(int first, int second)
 		else
 			first -= second;
 	return first;
-}*/
-
+}
+*/
 /*
 int main ()
 {
@@ -55,5 +68,14 @@ int main ()
   p1 = p2;           
   *p1 = 20;        
   
+
   return 0;
 }*/
+
+int main() {
+    int *p = new int[100];
+    int a = 6;
+    if (p == nullptr)
+        return a+6;
+    p[5]=8;
+}
