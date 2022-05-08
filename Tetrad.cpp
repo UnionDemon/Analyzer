@@ -27,6 +27,24 @@ std::string Operand::getVarName() {
 	return variable;
 }
 
+OperandSource Operand::getOpSource() {
+	return source;
+}
+
+std::list<Tetrad*> pseudoCodeGenerator::getPseudoCode() {
+	return pseudoCode;
+}
+
+void Operand::setVarName(std::string varName) {
+	this->variable = varName;
+}
+void Operand::setTypeOp(OperandType type) {
+	this->typeop = type;
+}
+void Operand::setCompareType(CompareType type) {
+	this->comparison = type;
+}
+
 void pseudoCodeGenerator::handleStatement(Stmt* st)
 {
 	nodeName(st);
@@ -49,6 +67,12 @@ void pseudoCodeGenerator::handleStatement(Stmt* st)
 		return;
 	}
 	
+	if (CXXNullPtrLiteralExpr* nullptr_stmt = dyn_cast<CXXNullPtrLiteralExpr>(st))
+	{
+		handleNullptrLiteral(nullptr_stmt);
+		return;
+	}
+
 	if (ValueStmt* val_stmt = dyn_cast<ValueStmt>(st))
 	{
 		handleValueStmt(val_stmt);
@@ -98,6 +122,48 @@ void pseudoCodeGenerator::handleDefaultStatement(Stmt* st) {
 	pseudoCode.push_back(tetrad);
 }
 
+void pseudoCodeGenerator::handleNullPtrCheck(BinaryOperator* bin_op, Tetrad* tetrad, Operand* result)
+{
+	CompareType compare;
+	if (bin_op->getOpcode() == BO_EQ) {
+		compare = CompareType::eq;
+	}
+	else if (bin_op->getOpcode() == BO_NE)
+	{
+		compare = CompareType::ne;
+	} 
+	else 
+	{
+		return;
+	}
+
+	if (tetrad->operands.size() != 2)
+	{
+		return;
+	}
+	
+	auto operandIt = tetrad->operands.begin();
+	if ((*operandIt)->getTypeOp() != OperandType::pointer) {
+		return;
+	}
+
+	std::string ptrName = (*operandIt)->getVarName();
+
+	operandIt++;
+	if ((*operandIt)->getTypeOp() != OperandType::nullptrLiteral) {
+		return;
+	}
+
+	result->setTypeOp(OperandType::ptrNullCheck);
+	result->setVarName(ptrName);
+	result->setCompareType(compare);
+}
+
+void pseudoCodeGenerator::handleNullptrLiteral(CXXNullPtrLiteralExpr* st) {
+	Operand* result = new Operand(OperandSource::object, OperandType::nullptrLiteral, "", st);
+	operandsStack.push_back(result);
+}
+
 void pseudoCodeGenerator::handleValueStmt(ValueStmt* st)
 {
 	int childrens = countChildren(st);
@@ -123,6 +189,12 @@ void pseudoCodeGenerator::handleValueStmt(ValueStmt* st)
 	pseudoCode.push_back(tetrad);
 
 	Operand* result = new Operand(OperandSource::stack, OperandType::other, "", st);
+
+	if (BinaryOperator* bin_op = dyn_cast<BinaryOperator>(st))
+	{
+		handleNullPtrCheck(bin_op, tetrad, result);
+	}
+
 	operandsStack.push_back(result);
 }
 
@@ -457,7 +529,8 @@ void pseudoCodeGenerator::makeJmpOnFalseTetrad(Stmt* st, int labelNumber)
 	{
 		if ((*it)->getAstNode() == st)
 		{
-			Operand* conditionVal = new Operand(OperandSource::stack, OperandType::other, "", (*it)->getAstNode());
+			//Operand* conditionVal = new Operand(OperandSource::stack, OperandType::other, "", (*it)->getAstNode());
+			Operand* conditionVal = new Operand(**it);
 			operandsStack.erase(it);
 			tetrad->operands.push_back(conditionVal);
 			break;
@@ -531,6 +604,10 @@ void pseudoCodeGenerator::handleImplicitCastExpr(ImplicitCastExpr* expr)
 		resultOperandType = OperandType::pointer;
 		resultVarName = op->getVarName();
 	}
+	else if (op->getTypeOp() == OperandType::nullptrLiteral) 
+	{
+		resultOperandType = OperandType::nullptrLiteral;
+	}
 
 	Tetrad* tetrad = new Tetrad();
 	tetrad->operation = OperationType::other;
@@ -594,6 +671,22 @@ void Operand::print()
 	if (typeop == OperandType::pointer)
 	{
 		std::cout << "pointer ";
+	}
+	if (typeop == OperandType::nullptrLiteral)
+	{
+		std::cout << "nullptrLiteral ";
+	}
+	if (typeop == OperandType::ptrNullCheck)
+	{
+		std::cout << "ptrNullCheck ";
+	}
+	if (comparison == CompareType::eq)
+	{
+		std::cout << "equal ";
+	}
+	if (comparison == CompareType::ne)
+	{
+		std::cout << "not equal ";
 	}
 	std::cout << variable << " ";
 	std::cout << "]";

@@ -21,7 +21,15 @@ enum class OperandSource {
 
 enum class OperandType {
 	pointer,
+	ptrNullCheck,
+	nullptrLiteral,
 	other
+};
+
+enum class CompareType {
+	none,
+	eq,
+	ne
 };
 
 class Operand {
@@ -29,13 +37,23 @@ private:
 	OperandSource source;
 	OperandType typeop;
 	std::string variable;
+	CompareType comparison = CompareType::none;
 	Stmt* astNode;
 public:
 	Operand(OperandSource src, OperandType type, std::string var, Stmt* nd);
+	Operand(const Operand& op) {
+		*this = op;
+	}
 
 	Stmt* getAstNode();
 	OperandType getTypeOp();
 	std::string getVarName();
+	OperandSource getOpSource();
+
+	void setVarName(std::string varName);
+	void setTypeOp(OperandType type);
+	void setCompareType(CompareType type);
+
 	void print();
 };
 
@@ -55,6 +73,7 @@ private:
 	std::list<Tetrad*> pseudoCode;
 
 	void handleValueStmt(ValueStmt* st);
+	void handleNullptrLiteral(CXXNullPtrLiteralExpr* st);
 	int countChildren(Stmt* st);
 	void handleCompoundStmt(CompoundStmt* st);
 	void handleIfStmt(IfStmt* st);
@@ -74,8 +93,10 @@ private:
 	void handleUnaryOperator(UnaryOperator* unary_op);
 	void handleDeclRefExpr(DeclRefExpr* expr);
 	void handleImplicitCastExpr(ImplicitCastExpr* expr);
+	void handleNullPtrCheck(BinaryOperator* bin_op, Tetrad* tetrad, Operand* result);
 public:
 	void handleStatement(Stmt* st);
 	void print();
 	Stmt* findFirst(Stmt* st);
+	std::list<Tetrad*> getPseudoCode();
 };

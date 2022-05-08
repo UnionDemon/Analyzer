@@ -152,11 +152,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CodeGenerator.cpp" />
+    <ClCompile Include="controlFlowGraph.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Tetrad.cpp" />
     <ClCompile Include="Tetrad.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="controlFlowGraph.h" />
     <ClInclude Include="StmtHash.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
