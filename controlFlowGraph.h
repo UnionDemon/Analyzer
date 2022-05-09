@@ -19,9 +19,19 @@ public:
 class edge {
 private:
 	BasicBlock* destination;
+
+	// Информация о том, является ли ребро - переходом по проверке указателя на nullptr
+	bool isNullPtrCheck = false;
+	CompareType compareT = CompareType::none;
+	std::string variable;
 public:
 	edge(BasicBlock* dBB);
 	BasicBlock* getDestination();
+
+	void setNullPtrCheck(CompareType cT, std::string pointerName);
+	bool isNullptrCheck();
+	CompareType getCompareType();
+	std::string getVarName();
 };
 
 class controlFlowGraph {
@@ -35,6 +45,7 @@ private:
 	void addBlockByLabel(BasicBlock* bb);
 	void createEdges();
 	void createEdgeForJmp(BasicBlock* bb);
+	void handleJmpOnFalseEdge(Tetrad* tetrad, edge* e);
 public: 
 	controlFlowGraph(const std::list<Tetrad*> &pseudoCode);
 	void print();
