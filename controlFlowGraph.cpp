@@ -1,3 +1,4 @@
+/*
 #include "Tetrad.h"
 #include "controlFlowGraph.h"
 
@@ -11,3 +12,4 @@ controlFlowGraph::controlFlowGraph(const std::list<Tetrad*> &pseudoCode)
 	void initCFG(pseudoCode);
 }
 
+*/
