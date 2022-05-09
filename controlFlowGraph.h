@@ -6,14 +6,17 @@ class BasicBlock {
 private:
 	std::list<Tetrad*> instructions;
 public:
-	BasicBlock(std::list<Tetrad*> instruct);
+	BasicBlock(const std::list<Tetrad*> &instruct);
+	void print();
 };
 
 class controlFlowGraph {
 private:
 	std::list<BasicBlock*> cfg;
 	void initCFG(const std::list<Tetrad*> &pseudoCode);
+	void addBasicBlock(const std::list<Tetrad*>& tetrads);
 public: 
 	controlFlowGraph(const std::list<Tetrad*> &pseudoCode);
+	void print();
 }; 
 */

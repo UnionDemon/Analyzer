@@ -10,6 +10,7 @@
 #include "clang/Tooling/CommonOptionsParser.h"
 #include "clang/Tooling/Tooling.h"
 #include "Tetrad.h"
+#include "controlFlowGraph.h"
 
 #include <iostream>
 #include <fstream>
@@ -87,5 +88,7 @@ int main(int argc, const char** argv) {
     auto actionFactory = newFrontendActionFactory<ExampleFrontendAction>();
     int result = Tool.run(actionFactory.get());
     g_codegenerator.print();
+    controlFlowGraph cfg(g_codegenerator.getPseudoCode());
+    cfg.print();
     return result;
 }
