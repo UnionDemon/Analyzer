@@ -13,6 +13,7 @@ enum class OperationType {
 	jmpOnFalse,
 	label,
 	dereference,
+	returnStmt,
 	other
 };
 
@@ -51,6 +52,7 @@ public:
 	OperandType getTypeOp();
 	std::string getVarName();
 	OperandSource getOpSource();
+	CompareType getCompareType();
 
 	void setVarName(std::string varName);
 	void setTypeOp(OperandType type);
@@ -96,6 +98,7 @@ private:
 	void handleDeclRefExpr(DeclRefExpr* expr);
 	void handleImplicitCastExpr(ImplicitCastExpr* expr);
 	void handleNullPtrCheck(BinaryOperator* bin_op, Tetrad* tetrad, Operand* result);
+	void handleReturnStmt(ReturnStmt* st);
 public:
 	void handleStatement(Stmt* st);
 	void print();

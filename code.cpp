@@ -75,7 +75,10 @@ int main ()
 int main() {
     int *p = new int[100];
     int a = 6;
-    if (p == nullptr)
-        return a+6;
+    if (p != nullptr) {
+ return a+5;
+ a++;
+    }
+     return a+6;
     p[5]=8;
 }

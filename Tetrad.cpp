@@ -18,6 +18,10 @@ Stmt* Operand::getAstNode()
 	return astNode;
 }
 
+CompareType Operand::getCompareType() {
+	return comparison;
+}
+
 OperandType Operand::getTypeOp()
 {
 	return typeop;
@@ -103,6 +107,12 @@ void pseudoCodeGenerator::handleStatement(Stmt* st)
 		return;
 	}
 
+	if (ReturnStmt* return_stmt = dyn_cast<ReturnStmt>(st))
+	{
+		handleReturnStmt(return_stmt);
+		return;
+	}
+
 	handleDefaultStatement(st);
 }
 
@@ -117,6 +127,23 @@ void pseudoCodeGenerator::handleDefaultStatement(Stmt* st) {
 		Operand* op = operandsStack.back();
 		operandsStack.pop_back();
 		tetrad->operands.push_front(op); 
+	}
+
+	pseudoCode.push_back(tetrad);
+}
+
+void pseudoCodeGenerator::handleReturnStmt(ReturnStmt* st)
+{
+	int childrens = countChildren(st);
+
+	Tetrad* tetrad = new Tetrad();
+	tetrad->operation = OperationType::returnStmt;
+	tetrad->astNode = st;
+
+	for (int i = 0; i < childrens; i++) {
+		Operand* op = operandsStack.back();
+		operandsStack.pop_back();
+		tetrad->operands.push_front(op);
 	}
 
 	pseudoCode.push_back(tetrad);
@@ -642,6 +669,9 @@ void Tetrad::print()
 	}
 	if (operation == OperationType::dereference) {
 		std::cout << "dereference " << " ";
+	}
+	if (operation == OperationType::returnStmt) {
+		std::cout << "return " << " ";
 	}
 	if (operation == OperationType::other) {
 		std::cout << "other ";
