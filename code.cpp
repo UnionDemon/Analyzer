@@ -72,6 +72,7 @@ int main ()
   return 0;
 }*/
 
+/*
 int main() {
     int *p = new int[100];
     int a = 6;
@@ -81,4 +82,66 @@ int main() {
     }
      return a+6;
     p[5]=8;
+}
+*/
+
+/*
+int f(int* p) {
+    if (p == nullptr) {
+        return -1;
+    } else {
+        return *p + 10;
+    }
+}
+*/
+
+// ===============================================
+
+
+/*
+extern void print(int x);
+
+int f(int a, int b) {
+    print(a);
+    print(b);
+
+    int sum = 0;
+    for (int i = 0; i < a; i++) {
+        sum += i;
+    }
+    sum *= b;
+
+    return sum;
+}
+*/
+
+/*
+extern void print(int x);
+
+void f(int a) {
+    int sum = 0;
+
+    for (int i = 0; i < a; i++) {
+        if (i % 2 == 0) {
+            sum += i;
+        }
+        print(sum);
+    }
+
+    print(sum);
+}
+*/
+
+
+extern void print(int a);
+
+void f(int a) {
+    int sum = 0;
+    for (int i = 0; i < a; i++)
+        if (i % 2 == 0)
+            sum += i;
+        else
+            sum -= 2 * i;
+    
+    print(sum);
 }

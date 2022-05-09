@@ -1,4 +1,4 @@
-FLAGS=-I/usr/include -g -c
+FLAGS=-I/usr/include -g -c -O0
 LIBFLAGS=-L/usr/lib64 -lLLVM -lclang -lclang-cpp
 
 build/app: build/main.o build/code_generator.o build/cfg.o build/tetrad.o

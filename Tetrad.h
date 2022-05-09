@@ -99,9 +99,20 @@ private:
 	void handleImplicitCastExpr(ImplicitCastExpr* expr);
 	void handleNullPtrCheck(BinaryOperator* bin_op, Tetrad* tetrad, Operand* result);
 	void handleReturnStmt(ReturnStmt* st);
+
+	int getOrMakeLabelToSubtreeBeginning(Stmt* subtree);
+	int makeLabelAtTheEnd();
+	void insertTetradAfterSubtree(Stmt* subtree, Tetrad* tetrad);
+
+	void FOR_STMT_insertJumpsAfterCondSubtree(Stmt* condSubtree, int bodyLabel, int forEndLabel);
+	void FOR_STMT_insertJumpAfterIncSubtree(Stmt* incSubtree, int condLabel);
+	void FOR_STMT_insertJumpAfterBodySubtree(Stmt* bodySubtree, int incLabel);
+
+	bool isConvertableToTetrad(Stmt* st);
 public:
 	void handleStatement(Stmt* st);
 	void print();
 	Stmt* findFirst(Stmt* st);
+	Stmt* findLast(Stmt* st);
 	std::list<Tetrad*> getPseudoCode();
 };
