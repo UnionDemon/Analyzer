@@ -1,4 +1,3 @@
-/*
 #pragma once
 #include "Tetrad.h"
 
@@ -19,4 +18,3 @@ public:
 	controlFlowGraph(const std::list<Tetrad*> &pseudoCode);
 	void print();
 }; 
-*/

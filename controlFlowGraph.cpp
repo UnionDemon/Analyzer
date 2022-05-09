@@ -1,4 +1,3 @@
-/*
 #include "Tetrad.h"
 #include "controlFlowGraph.h"
 #include <iostream>
@@ -64,4 +63,4 @@ void BasicBlock::print()
 	}
 	std::cout << "___________________\n\n";
 }
-*/
+
