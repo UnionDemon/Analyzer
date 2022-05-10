@@ -65,10 +65,12 @@ struct Tetrad
 {
 	OperationType operation;
 	std::list<Operand*> operands;
-	Stmt* astNode;
+	void* astNode;
 	int labelNumber;
 
 	void print();
+
+	Tetrad();
 };
 
 class pseudoCodeGenerator {
@@ -93,7 +95,7 @@ private:
 	void makeJmpTetrad(Stmt* st, Stmt* cond);
 	int firstLabelMarker(Stmt* st, Stmt* cond);
 	void handleWhileStmt(WhileStmt* st);
-	void makeJmpOnFalseTetrad(Stmt* st, int labelNumber);
+	Tetrad* makeJmpOnFalseTetrad(void* st, int labelNumber);
 	void handleUnaryOperator(UnaryOperator* unary_op);
 	void handleDeclRefExpr(DeclRefExpr* expr);
 	void handleImplicitCastExpr(ImplicitCastExpr* expr);
@@ -108,11 +110,11 @@ private:
 	void FOR_STMT_insertJumpAfterIncSubtree(Stmt* incSubtree, int condLabel);
 	void FOR_STMT_insertJumpAfterBodySubtree(Stmt* bodySubtree, int incLabel);
 
-	bool isConvertableToTetrad(Stmt* st);
+	
 public:
 	void handleStatement(Stmt* st);
 	void print();
-	Stmt* findFirst(Stmt* st);
-	Stmt* findLast(Stmt* st);
+	//void* findFirst(void* st);
+	//void* findLast(void* st);
 	std::list<Tetrad*> getPseudoCode();
 };
