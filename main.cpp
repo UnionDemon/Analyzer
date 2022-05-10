@@ -11,6 +11,7 @@
 #include "clang/Tooling/Tooling.h"
 #include "Tetrad.h"
 #include "controlFlowGraph.h"
+#include "Interpreter.h"
 
 #include <iostream>
 #include <fstream>
@@ -25,6 +26,7 @@ using namespace clang::tooling;
 using namespace llvm;
 
 extern pseudoCodeGenerator g_codegenerator;
+extern ASTContext* g_ast_context;
 
 class ExampleVisitor : public RecursiveASTVisitor<ExampleVisitor> {
 private:
@@ -35,6 +37,7 @@ public:
         : astContext(&(CI->getASTContext())) // initialize private members
     {
         generator = &g_codegenerator;
+        g_ast_context = astContext;
     }
 
     virtual bool VisitStmt(Stmt* st) {
@@ -90,5 +93,11 @@ int main(int argc, const char** argv) {
     g_codegenerator.print();
     controlFlowGraph cfg(g_codegenerator.getPseudoCode());
     cfg.print();
+    Interpreter interpreter(&cfg);
+    interpreter.run();
+    for (auto it = interpreter.getErrors().begin(); it != interpreter.getErrors().end(); it++)
+    {
+        std::cout << (*it)->location << " : " << (*it)->message << std::endl;
+    }
     return result;
 }

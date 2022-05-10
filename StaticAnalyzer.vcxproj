@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="astComplement.h" />
     <ClInclude Include="controlFlowGraph.h" />
+    <ClInclude Include="Interpreter.h" />
     <ClInclude Include="StmtHash.h" />
     <ClInclude Include="Tetrad.h" />
   </ItemGroup>
@@ -28,6 +29,7 @@
     <ClCompile Include="astComplement.cpp" />
     <ClCompile Include="CodeGenerator.cpp" />
     <ClCompile Include="controlFlowGraph.cpp" />
+    <ClCompile Include="Interpreter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Tetrad.cpp" />
   </ItemGroup>

@@ -46,7 +46,17 @@ private:
 	void createEdges();
 	void createEdgeForJmp(BasicBlock* bb);
 	void handleJmpOnFalseEdge(Tetrad* tetrad, edge* e);
+
+	// Информация о предыдущих созданных ребрах-прыжках
+	bool prevEdgeIsNullptrCheck = false;
+	std::string prevEdgeVariable = "";
+	CompareType prevEdgeCompareType = CompareType::none;
+	//==================================================
+
 public: 
 	controlFlowGraph(const std::list<Tetrad*> &pseudoCode);
 	void print();
+
+	const std::list<BasicBlock*>& getBlocks();
+	std::map<int, std::list<edge*>>& getEdges();
 }; 

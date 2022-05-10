@@ -34,6 +34,15 @@ controlFlowGraph::controlFlowGraph(const std::list<Tetrad*> &pseudoCode)
 	initCFG(pseudoCode);
 }
 
+const std::list<BasicBlock*>& controlFlowGraph::getBlocks()
+{
+	return cfg;
+}
+std::map<int, std::list<edge*>>& controlFlowGraph::getEdges()
+{
+	return edges;
+}
+
 void controlFlowGraph::initCFG(const std::list<Tetrad*>& pseudoCode) {
 	std::list<Tetrad*> current;
 	for (auto it = pseudoCode.begin(); it != pseudoCode.end(); it++)
@@ -124,10 +133,29 @@ void controlFlowGraph::addBlockByLabel(BasicBlock* bb)
 	blocksByLabels[lN] = bb;
 }
 
+
+CompareType invertCompare(CompareType type) {
+	if (type == CompareType::none) {
+		return CompareType::none;
+	}
+
+	if (type == CompareType::eq) {
+		return CompareType::ne;
+	}
+
+	if (type == CompareType::ne) {
+		return CompareType::eq;
+	}
+}
+
 void controlFlowGraph::createEdges()
 {
 	for (auto it = cfg.begin(); it != cfg.end(); it++)
 	{
+		prevEdgeIsNullptrCheck = false;
+		prevEdgeCompareType = CompareType::none;
+		prevEdgeVariable = "";
+
 		createEdgeForJmp(*it);
 
 		auto lastTetrad = (*it)->getTetrads().rbegin();
@@ -139,7 +167,12 @@ void controlFlowGraph::createEdges()
 				continue;
 			}
 
-			edges[(*it)->getId()].push_back(new edge(*nextBasicBlock));
+			edge* simpleEdge = new edge(*nextBasicBlock);
+			if (prevEdgeIsNullptrCheck) {
+				simpleEdge->setNullPtrCheck(invertCompare(prevEdgeCompareType), prevEdgeVariable);
+			}
+
+			edges[(*it)->getId()].push_back(simpleEdge);
 			continue;
 		}
 
@@ -160,6 +193,7 @@ void controlFlowGraph::createEdgeForJmp(BasicBlock* bb)
 	}
 }
 
+
 void controlFlowGraph::handleJmpOnFalseEdge(Tetrad* tetrad, edge* e)
 {
 	if (tetrad->operation != OperationType::jmpOnFalse)
@@ -171,7 +205,10 @@ void controlFlowGraph::handleJmpOnFalseEdge(Tetrad* tetrad, edge* e)
 	{
 		return;
 	}
-	e->setNullPtrCheck(operand->getCompareType(), operand->getVarName());
+	e->setNullPtrCheck(invertCompare(operand->getCompareType()), operand->getVarName());
+	prevEdgeIsNullptrCheck = true;
+	prevEdgeCompareType = invertCompare(operand->getCompareType());
+	prevEdgeVariable = operand->getVarName();
 }
 
 void edge::setNullPtrCheck(CompareType cT, std::string pointerName)

@@ -44,7 +44,7 @@ a = a + 10 * a + a * 5;
 return a;
 }*/
 
-
+/*
 int nod(int first, int second)
 {
 	while (first != second) {
@@ -60,7 +60,7 @@ int nod(int first, int second)
     }
 		
 	return first;
-}
+}*/
 
 /*
 int main ()
@@ -79,18 +79,18 @@ int main ()
   return 0;
 }*/
 
-/*
+
 int main() {
     int *p = new int[100];
     int a = 6;
-    if (p != nullptr) {
- return a+5;
- a++;
+    if (p == nullptr) {
+        return;
     }
+    a = *p;
      return a+6;
     p[5]=8;
 }
-*/
+
 
 /*
 int f(int* p) {
