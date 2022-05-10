@@ -92,10 +92,10 @@ private:
 	int findOrMakeLabel(Stmt* st);
 	void insertForJumpBeforeLabel(int toLabel, int beforeLabel);
 	int findEndCycleStmt(Stmt* st);
-	void makeJmpTetrad(Stmt* st, Stmt* cond);
-	int firstLabelMarker(Stmt* st, Stmt* cond);
+	void WHILE_makeJumpToCondition(Stmt* st, Stmt* cond);
+	int getWhileCondLabel(Stmt* cond);
 	void handleWhileStmt(WhileStmt* st);
-	Tetrad* makeJmpOnFalseTetrad(void* st, int labelNumber);
+	Tetrad* makeJmpOnFalseTetrad(void * conditionSt, int labelNumber);
 	void handleUnaryOperator(UnaryOperator* unary_op);
 	void handleDeclRefExpr(DeclRefExpr* expr);
 	void handleImplicitCastExpr(ImplicitCastExpr* expr);

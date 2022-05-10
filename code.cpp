@@ -44,17 +44,24 @@ a = a + 10 * a + a * 5;
 return a;
 }*/
 
-/*
+
 int nod(int first, int second)
 {
-	while (first != second)
-		if (first < second)
-			second -= first;
+	while (first != second) {
+        if (first < second)
+        {
+            second -= first;
+        }
 		else
-			first -= second;
+			{
+               first -= second;  
+            }
+           
+    }
+		
 	return first;
 }
-*/
+
 /*
 int main ()
 {
@@ -132,7 +139,7 @@ void f(int a) {
 }
 */
 
-
+/*
 extern void print(int a);
 
 void f(int a) {
@@ -144,4 +151,4 @@ void f(int a) {
             sum -= 2 * i;
     
     print(sum);
-}
+}*/

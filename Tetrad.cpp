@@ -114,13 +114,13 @@ void pseudoCodeGenerator::handleStatement(Stmt* st)
 		return;
 	}
 
-/*
+
 	if (WhileStmt* while_stmt = dyn_cast<WhileStmt>(st))
 	{
 		handleWhileStmt(while_stmt);
 		return;
 	}
-*/
+
 
 	if (ReturnStmt* return_stmt = dyn_cast<ReturnStmt>(st))
 	{
@@ -255,146 +255,9 @@ int pseudoCodeGenerator::countChildren(Stmt* st)
 	return childrenCount;
 }
 
-/*поиск в левом поддереве
-Stmt* pseudoCodeGenerator::findFirst(Stmt* st)
-{
-	if (countChildren(st) == 0)
-	{
-		return nullptr;
-	}
-
-	Stmt* firstChild = *(st->child_begin());
-	if (countChildren(firstChild) == 0)
-	{
-		return st;
-	}
-
-	return findFirst(firstChild);
-}*/
-
-/*
-void* pseudoCodeGenerator::findFirst(void* st)
-{
-	if (!g_ast_complement.isFakeNode(st))
-	{
-		if (countChildren(static_cast<Stmt*>(st)) == 0)
-		{
-			return nullptr;
-		}
-	}
-
-	std::list<void*> children;
-
-	for (auto it: g_ast_complement.getPreChildren(st)) {
-		children.push_back(it);
-	}
-	
-	if (!g_ast_complement.isFakeNode(st)) {
-		Stmt* realStmt = static_cast<Stmt*>(st);
-		for (auto it = realStmt->child_begin(); it != realStmt->child_end(); it++)
-		{
-			children.push_back(*it);
-
-			
-		}
-	}
-
-	for (auto it: g_ast_complement.getPostChildren(st)) {
-		children.push_back(it);
-	}
-
-	for (auto it: children) {
-		void* first = findFirst(it);
-		if (first != nullptr)
-			return first;
-	}
-	
-	return st;
-}
-*/
-
-/*
-void* pseudoCodeGenerator::findLast(void* st) {
-	if (isConvertableToTetrad(st)) {
-		return st;
-	}
-
-	std::list<void*> children;
-
-	for (auto it: g_ast_complement.getPreChildren(st)) {
-		children.push_back(st);
-	}
-
-	if (!g_ast_complement.isFakeNode(st)) {
-		Stmt* realStmt = static_cast<Stmt*>(st);
-		for (auto it = realStmt->child_begin(); it != realStmt->child_end(); it++) {
-			children.push_back(*it);
-		}
-	}
-	
-	for (auto it: g_ast_complement.getPostChildren(st)) {
-		children.push_back(st);
-	}
-
-	for (auto it = children.rbegin(); it != children.rend(); it++)
-	{
-		void* last = findLast(*it);
-		if (last != nullptr)
-			return last;
-	}
-
-	return nullptr;
-}
-*/
-
-/*
-Stmt* pseudoCodeGenerator::findLast(Stmt* st)
-{
-	if (countChildren(st) == 0)
-	{
-		return nullptr;
-	}
-
-	std::list<Stmt*> children;
-
-	for (auto it = st->child_begin(); it != st->child_end(); it++) {
-		children.push_back(*it);
-	}
-
-	for (auto it = children.rbegin(); it != children.rend() ;it++)
-	{
-		Stmt* last = findLast(*it);
-		if (last != nullptr)
-			return last;
-	}
-
-	return st;
-}
-*/
-
 void pseudoCodeGenerator::handleCompoundStmt(CompoundStmt* st)
 {
-	/*
-	Stmt* begStmt = findFirst(st);
-
-	//DEBUG
-	//std::string begName = nodeName(begStmt);
-	//std::cout << "\n\n\n=================== ELSE NODE : " << begName << " ============\n\n\n";
-	//=====DEBUG
-
-	Tetrad* tetrad = new Tetrad();
-	tetrad->labelNumber = labelCounter++;
-	tetrad->operation = OperationType::label;
-	tetrad->astNode = st;
-	for (auto iter = pseudoCode.begin(); iter != pseudoCode.end(); iter++)
-	{
-		if ((*iter)->astNode == begStmt)
-		{
-			pseudoCode.insert(iter, tetrad);
-			break;
-		}
-	}
-*/
+	
 }
 
 void pseudoCodeGenerator::handleIfStmt(IfStmt* st)
@@ -403,34 +266,11 @@ void pseudoCodeGenerator::handleIfStmt(IfStmt* st)
 	Stmt* condStmt = (Stmt*)st->getCond();
 
 	//Вставить jumpFalse после условия
-	//void* endOfCond = findLast(condStmt);
 	void* endOfCond = g_ast_complement.findLastSubtreeNode(condStmt);
 	makeJmpOnFalseTetrad(endOfCond, labelNumberElse);
 
 	//Вставить прыжок на конец условного оператора в конце then
 	jmpIfStmt(st);
-
-/*
-	//вложенность
-	Tetrad* tetrad = new Tetrad();
-	tetrad->labelNumber = labelCounter++;
-	tetrad->operation = OperationType::label;
-	tetrad->astNode = st;
-	Stmt* ifBegin = findFirst(st);
-	auto itBegin = pseudoCode.end();
-	for (auto it = pseudoCode.begin(); it != pseudoCode.end(); it++)
-	{
-		if ((*it)->astNode == ifBegin)
-		{
-			itBegin = it;
-		}
-	}
-	if ((*itBegin)->operation == OperationType::label)
-	{
-		return;
-	}
-	pseudoCode.insert(itBegin, tetrad);
-	*/
 }
 
 int pseudoCodeGenerator::findElse(IfStmt* st)
@@ -441,7 +281,6 @@ int pseudoCodeGenerator::findElse(IfStmt* st)
 		return findEndIfStmt(st);
 	}
 	
-	//void* firstElseStmt = findFirst(elseStmt);
 	void* firstElseStmt = g_ast_complement.findFirstSubtreeNode(elseStmt);
 
 	auto firstElseTetrad = pseudoCode.end();
@@ -472,34 +311,6 @@ int pseudoCodeGenerator::findElse(IfStmt* st)
 	g_ast_complement.addPredecessor(firstElseStmt, tetrad);
 
 	return tetrad->labelNumber;
-	
-/*
-	auto elseTetrad = pseudoCode.end();
-
-	for (auto it = pseudoCode.begin(); it != pseudoCode.end(); it++)
-	{
-		if ((*it)->astNode == elseStmt)
-		{
-			elseTetrad = it;
-			break;
-		}
-	}
-
-	if (elseTetrad == pseudoCode.end()) {
-		return -1;
-	}
-
-	if ((*elseTetrad)->operation == OperationType::label)
-	{
-		return (*elseTetrad)->labelNumber;
-	}
-
-	Tetrad* tetrad = new Tetrad();
-	tetrad->operation = OperationType::label;
-	tetrad->labelNumber = labelCounter++;
-	pseudoCode.insert(elseTetrad, tetrad);
-	return tetrad->labelNumber;
-	*/
 }
 
 // Вставляет прыжок на окончание условного оператора в конце then
@@ -517,7 +328,6 @@ void pseudoCodeGenerator::jmpIfStmt(IfStmt* st)
 		return;
 	}
 
-	//void* lastThenStatement = findLast(thenStmt);
 	void* lastThenStatement = g_ast_complement.findLastSubtreeNode(thenStmt);
 	auto endOfThenStIterator = pseudoCode.end();
 	for (auto it = pseudoCode.begin(); it != pseudoCode.end(); it++) {
@@ -541,28 +351,6 @@ void pseudoCodeGenerator::jmpIfStmt(IfStmt* st)
 	pseudoCode.insert(endOfThenStIterator, tetrad);
 
 	g_ast_complement.addFollower(lastThenStatement, tetrad);
-
-	/*
-	int labelNumberEnd = findEndIfStmt(st);
-	Tetrad* tetrad = new Tetrad();
-	tetrad->operation = OperationType::jmp;
-	tetrad->labelNumber = labelNumberEnd;
-
-	auto ifElse = pseudoCode.end();
-	for (auto it = pseudoCode.begin(); it != pseudoCode.end(); it++)
-	{
-		if ((*it)->astNode == elseStmt)
-		{
-			ifElse = it;
-			break;
-		}
-	}
-	if (ifElse == pseudoCode.end())
-	{
-		return;
-	}
-	pseudoCode.insert(ifElse, tetrad);
-	*/
 }
 
 //конец IfStmt
@@ -581,7 +369,6 @@ int pseudoCodeGenerator::findEndIfStmt(IfStmt* st)
 }
 
 void pseudoCodeGenerator::insertTetradAfterSubtree(Stmt* subtree, Tetrad* tetrad) {
-	//Stmt* endOfsubtree = findLast(subtree);
 	void* endOfsubtree = g_ast_complement.findLastSubtreeNode(subtree);
 
 	if (endOfsubtree == nullptr) {
@@ -605,7 +392,6 @@ void pseudoCodeGenerator::insertTetradAfterSubtree(Stmt* subtree, Tetrad* tetrad
 }
 
 void pseudoCodeGenerator::FOR_STMT_insertJumpAfterBodySubtree(Stmt* bodySubtree, int incLabel) {
-	//Stmt* endOfBody = findLast(bodySubtree);
 	void* endOfBody = g_ast_complement.findLastSubtreeNode(bodySubtree);
 
 	auto endOfBodyIterator = pseudoCode.end();
@@ -631,29 +417,6 @@ void pseudoCodeGenerator::FOR_STMT_insertJumpAfterBodySubtree(Stmt* bodySubtree,
 }
 
 void pseudoCodeGenerator::FOR_STMT_insertJumpAfterIncSubtree(Stmt* incSubtree, int condLabel) {
-	/*
-	Stmt* endOfInc = findLast(incSubtree);
-
-	auto endOfIncIterator = pseudoCode.end();
-	for (auto it = pseudoCode.begin(); it != pseudoCode.end(); it++) {
-		if ((*it)->astNode == endOfInc) {
-			endOfIncIterator = it;
-			break;
-		}
-	}
-
-	if (endOfIncIterator == pseudoCode.end()) {
-		std::cout << "\n\n\n========= ERROR: could not find FOR INC end to insert jump after it ========= \n\n\n";
-		return;
-	}
-
-	endOfIncIterator++;
-	Tetrad* jmpTetrad = new Tetrad();
-	jmpTetrad->operation = OperationType::jmp;
-	jmpTetrad->labelNumber = condLabel;
-	pseudoCode.insert(endOfIncIterator, jmpTetrad);
-	*/
-
 	Tetrad* jmpTetrad = new Tetrad();
 	jmpTetrad->operation = OperationType::jmp;
 	jmpTetrad->labelNumber = condLabel;
@@ -662,7 +425,6 @@ void pseudoCodeGenerator::FOR_STMT_insertJumpAfterIncSubtree(Stmt* incSubtree, i
 
 // Вставить прыжок после условия - jmpFalse на конец цикла, а затем jmp на тело цикла
 void pseudoCodeGenerator::FOR_STMT_insertJumpsAfterCondSubtree(Stmt* condSubtree, int bodyLabel, int forEndLabel) {
-	//Stmt* endOfCond = findLast(condSubtree);
 	void* endOfCond = g_ast_complement.findLastSubtreeNode(condSubtree);
 	
 	// Вставить после cond прыжок jmpFalse на конец всего цикла
@@ -714,31 +476,9 @@ void pseudoCodeGenerator::handleForStmt(ForStmt* st)
 	FOR_STMT_insertJumpsAfterCondSubtree(st->getCond(), bodyLabelNumber, endOfForLabelNumber);
 	FOR_STMT_insertJumpAfterIncSubtree(st->getInc(), condLabelNumber);
 	FOR_STMT_insertJumpAfterBodySubtree(st->getBody(), incLabelNumber);
-
-	/*
-	int labelNumberEndForStmt = findEndCycleStmt(st);
-	Stmt* condStmt = (Stmt*)st->getCond();
-	makeJmpOnFalseTetrad(condStmt, labelNumberEndForStmt);
-
-	Stmt* bodyStmt = st->getBody();
-	int labelBody = findOrMakeLabel(bodyStmt);
-
-	Stmt* conditionBegin = findFirst(condStmt);
-	int labelCond = findOrMakeLabel(conditionBegin);
-
-	Stmt* incStmt = (Stmt*)st->getInc();
-	Stmt* incBegin = findFirst(incStmt);
-	int labelInc = findOrMakeLabel(incBegin);
-
-	insertForJumpBeforeLabel(labelBody, labelInc);
-	insertForJumpBeforeLabel(labelInc, labelNumberEndForStmt);
-	insertForJumpBeforeLabel(labelCond, labelBody);
-	*/
-
 }
 
 int pseudoCodeGenerator::getOrMakeLabelToSubtreeBeginning(Stmt* subtree) {
-	//Stmt* beginningStmt = findFirst(subtree);
 	void* beginningStmt = g_ast_complement.findFirstSubtreeNode(subtree);
 
 	auto beginningIt = pseudoCode.end();
@@ -823,85 +563,77 @@ void pseudoCodeGenerator::insertForJumpBeforeLabel(int toLabel, int beforeLabel)
 	g_ast_complement.addPredecessor(*beforeLabelIterator, tetrad);
 }
 
-/*
-//конец ForStmt
+//конец WhileStmt
 int pseudoCodeGenerator::findEndCycleStmt(Stmt* st)
 {
-	auto endTetrad = pseudoCode.end();
-
 	Tetrad* tetrad = new Tetrad();
 	tetrad->operation = OperationType::label;
 	tetrad->labelNumber = labelCounter++;
-	pseudoCode.insert(endTetrad, tetrad);
+	pseudoCode.push_back(tetrad);
+
+	g_ast_complement.addFollower(st, tetrad);
+
 	return tetrad->labelNumber;
 }
-*/
 
-/*
-void pseudoCodeGenerator::makeJmpTetrad(Stmt* st, Stmt* cond)
+
+void pseudoCodeGenerator::WHILE_makeJumpToCondition(Stmt* st, Stmt* cond)
 {
-	//инструкция jmp для цикла for
-	auto endCond = pseudoCode.end();
-	endCond--;
 	//вставляем label перед cond
-	int labelNumberJmp = firstLabelMarker(st, cond);
+	int labelNumberJmp = getWhileCondLabel(cond);
 	Tetrad* tetrad = new Tetrad();
 	tetrad->operation = OperationType::jmp;
 	tetrad->labelNumber = labelNumberJmp;
 
-	pseudoCode.insert(endCond, tetrad);
-}
-*/
+	pseudoCode.push_back(tetrad);
 
-/*
-int pseudoCodeGenerator::firstLabelMarker(Stmt* st, Stmt* cond)
+	g_ast_complement.addFollower(st, tetrad);
+}
+
+
+int pseudoCodeGenerator::getWhileCondLabel(Stmt* cond)
 {
 	Tetrad* tetrad = new Tetrad();
 	tetrad->operation = OperationType::label;
 	tetrad->labelNumber = labelCounter++;
 	
-	Stmt* condStmt = cond;
-	auto condTetrad = pseudoCode.end();
+	void* condBeginning = g_ast_complement.findFirstSubtreeNode(cond);
 
+	auto condBeginningIterator = pseudoCode.end();
 	for (auto it = pseudoCode.begin(); it != pseudoCode.end(); it++)
 	{
-		if ((*it)->astNode == condStmt)
+		if ((*it)->astNode == condBeginning)
 		{
-			condTetrad = it;
+			condBeginningIterator = it;
 			break;
 		}
 	}
-	if (condTetrad == pseudoCode.end())
+	if (condBeginningIterator == pseudoCode.end())
 	{
+		std::cout << "\n\n\n ========== ERROR: couldnot find while_cond beginnin in pseudocode ======== \n\n\n";
 		return tetrad->labelNumber;
 	}
 
-	if (condTetrad == pseudoCode.begin())
-	{
-		pseudoCode.insert(condTetrad, tetrad);
-		return tetrad->labelNumber;
-	} else {
-		condTetrad--;
-		pseudoCode.insert(condTetrad, tetrad);
-		return tetrad->labelNumber;
-	}
+	g_ast_complement.addPredecessor(condBeginning, tetrad);
+
+	pseudoCode.insert(condBeginningIterator, tetrad);
+	return tetrad->labelNumber;
 }
-*/
 
-/*
+
 //обработка WhileStmt
 void pseudoCodeGenerator::handleWhileStmt(WhileStmt* st)
 {
-	int labelNumberEndForStmt = findEndCycleStmt(st);
 	Stmt* condStmt = (Stmt*)st->getCond();
-	makeJmpOnFalseTetrad(condStmt, labelNumberEndForStmt);
+	WHILE_makeJumpToCondition(st->getBody(), condStmt);
 
-	makeJmpTetrad(st, condStmt);
+	int labelNumberEndWhileStmt = findEndCycleStmt(st->getBody());
+	makeJmpOnFalseTetrad(condStmt, labelNumberEndWhileStmt);
 }
-*/
+
 
 // Вставить jumpOnFalse на labelNumber после st
-Tetrad* pseudoCodeGenerator::makeJmpOnFalseTetrad(void* st, int labelNumber)
+Tetrad* pseudoCodeGenerator::makeJmpOnFalseTetrad(void* conditionSt, int labelNumber)
 {
 	Tetrad* tetrad = new Tetrad();
 	tetrad->operation = OperationType::jmpOnFalse;
@@ -910,9 +642,8 @@ Tetrad* pseudoCodeGenerator::makeJmpOnFalseTetrad(void* st, int labelNumber)
 	//выдернуть операнд из стека
 	for (auto it = operandsStack.begin(); it != operandsStack.end(); it++)
 	{
-		if ((*it)->getAstNode() == st)
+		if ((*it)->getAstNode() == conditionSt)
 		{
-			//Operand* conditionVal = new Operand(OperandSource::stack, OperandType::other, "", (*it)->getAstNode());
 			Operand* conditionVal = new Operand(**it);
 			operandsStack.erase(it);
 			tetrad->operands.push_back(conditionVal);
@@ -922,7 +653,7 @@ Tetrad* pseudoCodeGenerator::makeJmpOnFalseTetrad(void* st, int labelNumber)
 	auto cond = pseudoCode.end();
 	for (auto it = pseudoCode.begin(); it != pseudoCode.end(); it++)
 	{
-		if ((*it)->astNode == st) {
+		if ((*it)->astNode == conditionSt) {
 			cond = it;
 			break;
 		}
@@ -934,7 +665,7 @@ Tetrad* pseudoCodeGenerator::makeJmpOnFalseTetrad(void* st, int labelNumber)
 	cond++;
 	pseudoCode.insert(cond, tetrad);
 
-	g_ast_complement.addFollower(st, tetrad);
+	g_ast_complement.addFollower(conditionSt, tetrad);
 
 	return tetrad;
 }
