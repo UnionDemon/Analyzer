@@ -62,7 +62,7 @@ int nod(int first, int second)
 	return first;
 }*/
 
-
+/*
 int main ()
 {
   int firstvalue = 5, secondvalue = 15;
@@ -73,19 +73,18 @@ int main ()
   *p1 = 10;
   *p2 = *p1;
   p1 = p2;           
-  *p1 = 20;        
-  
+  *p1 = 20;
 
   return 0;
-}
-/*
-//инициализированный указатель, разыменование нулевого указателя
+}*/
+
+
 int main() {
     int a = 6;
-    int *p;
-    *p = a;
+    int *p = nullptr;
+    p = &a;
 }
-*/
+
 //разыменование нулевого указателя
 /*
 int main() {

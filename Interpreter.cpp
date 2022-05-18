@@ -69,14 +69,15 @@ void Interpreter::run()
 void Interpreter::handleTetrad(Tetrad* tetrad)
 {
 	addPointersToTable(tetrad);
+	if (tetrad->operation == OperationType::assign)
+	{
+		handleAssign(tetrad);//диагностика присваивания
+	}
 	if (tetrad->operation == OperationType::dereference)
 	{
 		handleDereference(tetrad);
 	}
-	if (tetrad->operation == OperationType::assign)
-	{
-		handleUninitialized(tetrad);//диагностика неинициализированных указателей
-	}
+	
 }
 
 void Interpreter::addPointersToTable(Tetrad* tetrad)
@@ -91,6 +92,10 @@ void Interpreter::addPointersToTable(Tetrad* tetrad)
 		if (pointers.find(variable) == pointers.end())
 		{
 			pointers[variable] = pointerValue::any;
+		}
+		if (pointerInits.find(variable) == pointerInits.end())
+		{
+			pointerInits[variable] = pointerInit::uninitialized;
 		}
 	}
 }
@@ -108,28 +113,6 @@ void Interpreter::handleDereference(Tetrad* tetrad)
 		e->message = "Possible null pointer dereference: " + variable;
 		errors.push_back(e);
 	}
-}
-
-void Interpreter::handleUninitialized(Tetrad* tetrad)
-{
-	auto firstIt = tetrad->operands.begin();
-	std::string variable = (*firstIt)->getVarName();
-	if ((*firstIt)->getTypeOp() != OperandType::pointer)
-	{
-		return;
-	}
-	if (pointerInits.find(variable) == pointerInits.end())
-	{
-		pointerInits[variable] = pointerInit::uninitialized;
-	}
-	
-	auto secondIt = firstIt++;
-
-	if (((*firstIt)->getTypeOp() == OperandType::pointer) && (((*secondIt)->getTypeOp() == OperandType::address) || ((*secondIt)->getTypeOp() == OperandType::nullptrLiteral)))
-	{
-		pointerInits[variable] = pointerInit::initialized;
-	}
-
 	if (pointerInits[variable] == pointerInit::uninitialized)
 	{
 		error* e = new error();
@@ -138,5 +121,23 @@ void Interpreter::handleUninitialized(Tetrad* tetrad)
 		e->location = "";
 		e->message = "Uninitialized pointer: " + variable;
 		errors.push_back(e);
+	}
+}
+
+void Interpreter::handleAssign(Tetrad* tetrad)
+{
+	auto firstIt = tetrad->operands.begin();
+	std::string variable = (*firstIt)->getVarName();
+	if ((*firstIt)->getTypeOp() != OperandType::pointer)
+	{
+		return;
+	}
+	
+	auto secondIt = firstIt;
+	secondIt++;
+
+	if (((*firstIt)->getTypeOp() == OperandType::pointer) && (((*secondIt)->getTypeOp() == OperandType::address) || ((*secondIt)->getTypeOp() == OperandType::nullptrLiteral)))
+	{
+		pointerInits[variable] = pointerInit::initialized;
 	}
 }

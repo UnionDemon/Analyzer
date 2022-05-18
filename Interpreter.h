@@ -45,7 +45,7 @@ private:
 	void interpretTetrads(const std::list<Tetrad*>& tetrads);
 	void handleTetrad(Tetrad* tetrad);
 	void handleDereference(Tetrad* tetrad);
-	void handleUninitialized(Tetrad* tetrad);
+	void handleAssign(Tetrad* tetrad);
 	void addPointersToTable(Tetrad* tetrad);
 public:
 	Interpreter(controlFlowGraph* cfg);
