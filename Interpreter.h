@@ -9,7 +9,8 @@
 
 enum class errorType {
 	other,
-	nullPtrDereference
+	nullPtrDereference,
+	unitializedPointer
 };
 
 struct error {
@@ -25,6 +26,12 @@ enum class pointerValue
 	notNull
 };
 
+enum class pointerInit
+{
+	uninitialized,
+	initialized
+};
+
 class Interpreter {
 private:
 	controlFlowGraph* graph;
@@ -32,11 +39,13 @@ private:
 
 	std::map<int, bool> visitedBlock;
 	std::map<std::string, pointerValue> pointers;
+	std::map<std::string, pointerInit> pointerInits; //создаем map для сопоставления указателей и того, являются ли они инициализированными
 	void init();
 	void walkOnGraph(BasicBlock* bb);
 	void interpretTetrads(const std::list<Tetrad*>& tetrads);
 	void handleTetrad(Tetrad* tetrad);
 	void handleDereference(Tetrad* tetrad);
+	void handleUninitialized(Tetrad* tetrad);
 	void addPointersToTable(Tetrad* tetrad);
 public:
 	Interpreter(controlFlowGraph* cfg);

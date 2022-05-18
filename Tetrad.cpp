@@ -210,9 +210,38 @@ void pseudoCodeGenerator::handleNullptrLiteral(CXXNullPtrLiteralExpr* st) {
 	Operand* result = new Operand(OperandSource::object, OperandType::nullptrLiteral, "", st);
 	operandsStack.push_back(result);
 }
+//создаем тетраду с типом Assign
+void pseudoCodeGenerator::handleAssignment(BinaryOperator* bin_op) {
+	int childrens = countChildren(bin_op);
+
+	Tetrad* tetrad = new Tetrad();
+	tetrad->operation = OperationType::assign;
+	tetrad->astNode = bin_op;
+
+	for (int i = 0; i != childrens; i++)
+	{
+		Operand* op = operandsStack.back();
+		operandsStack.pop_back();
+		tetrad->operands.push_front(op);
+	}
+
+	pseudoCode.push_back(tetrad);
+
+	Operand* result = new Operand(OperandSource::stack, OperandType::other, "", bin_op);
+	operandsStack.push_back(result);
+}
 
 void pseudoCodeGenerator::handleValueStmt(ValueStmt* st)
 {
+	//проверка на присваивание - создание новой тетрады с типом Assign
+	if (BinaryOperator* bin_op = dyn_cast<BinaryOperator>(st))
+	{
+		if (bin_op->getOpcode() == BO_Assign) {
+			handleAssignment(bin_op);
+			return;
+		}
+	}
+	
 	int childrens = countChildren(st);
 	
 	if (childrens == 0)
@@ -223,6 +252,7 @@ void pseudoCodeGenerator::handleValueStmt(ValueStmt* st)
 	}
 
 	Tetrad* tetrad = new Tetrad();
+
 	tetrad->operation = OperationType::other;
 	tetrad->astNode = st;
 
@@ -669,15 +699,29 @@ Tetrad* pseudoCodeGenerator::makeJmpOnFalseTetrad(void* conditionSt, int labelNu
 
 	return tetrad;
 }
+//закидываем в стек операнд с типом address
+void pseudoCodeGenerator::handleAddress(UnaryOperator* op)
+{
+	Operand* operand = operandsStack.back();
+	operandsStack.pop_back();
+
+	Operand* result = new Operand(OperandSource::object, OperandType::address, "", op);
+	operandsStack.push_back(result);
+}
 
 void pseudoCodeGenerator::handleUnaryOperator(UnaryOperator* op)
 {
+	//обработка адреса
+	if (op->getOpcode() == UO_AddrOf) {
+		handleAddress(op);
+		return;
+	}
 	int childrens = countChildren(op);
 	Tetrad* tetrad = new Tetrad();
 	//обработка разыменований
 	if (op->getOpcode() == UO_Deref) {
 		tetrad->operation = OperationType::dereference;
-	}
+	} 
 	else
 	{
 		tetrad->operation = OperationType::other;
@@ -769,6 +813,9 @@ void Tetrad::print()
 	if (operation == OperationType::returnStmt) {
 		std::cout << "return " << " ";
 	}
+	if (operation == OperationType::assign) {
+		std::cout << "assign " << " ";
+	}
 	if (operation == OperationType::other) {
 		std::cout << "other ";
 	}
@@ -805,6 +852,10 @@ void Operand::print()
 	if (typeop == OperandType::ptrNullCheck)
 	{
 		std::cout << "ptrNullCheck ";
+	}
+	if (typeop == OperandType::address)
+	{
+		std::cout << "address ";
 	}
 	if (comparison == CompareType::eq)
 	{

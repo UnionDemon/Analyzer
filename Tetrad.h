@@ -14,6 +14,7 @@ enum class OperationType {
 	label,
 	dereference,
 	returnStmt,
+	assign,
 	other
 };
 
@@ -26,6 +27,7 @@ enum class OperandType {
 	pointer,
 	ptrNullCheck,
 	nullptrLiteral,
+	address,
 	other
 };
 
@@ -97,9 +99,11 @@ private:
 	void handleWhileStmt(WhileStmt* st);
 	Tetrad* makeJmpOnFalseTetrad(void * conditionSt, int labelNumber);
 	void handleUnaryOperator(UnaryOperator* unary_op);
+	void handleAddress(UnaryOperator* op);
 	void handleDeclRefExpr(DeclRefExpr* expr);
 	void handleImplicitCastExpr(ImplicitCastExpr* expr);
 	void handleNullPtrCheck(BinaryOperator* bin_op, Tetrad* tetrad, Operand* result);
+	void handleAssignment(BinaryOperator* bin_op);
 	void handleReturnStmt(ReturnStmt* st);
 
 	int getOrMakeLabelToSubtreeBeginning(Stmt* subtree);

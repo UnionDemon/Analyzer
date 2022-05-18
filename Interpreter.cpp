@@ -73,6 +73,10 @@ void Interpreter::handleTetrad(Tetrad* tetrad)
 	{
 		handleDereference(tetrad);
 	}
+	if (tetrad->operation == OperationType::assign)
+	{
+		handleUninitialized(tetrad);//диагностика неинициализированных указателей
+	}
 }
 
 void Interpreter::addPointersToTable(Tetrad* tetrad)
@@ -102,6 +106,37 @@ void Interpreter::handleDereference(Tetrad* tetrad)
 		//e->location = (static_cast<Stmt*>(tetrad->astNode))->getBeginLoc().printToString(g_ast_context->getSourceManager());
 		e->location = "";
 		e->message = "Possible null pointer dereference: " + variable;
+		errors.push_back(e);
+	}
+}
+
+void Interpreter::handleUninitialized(Tetrad* tetrad)
+{
+	auto firstIt = tetrad->operands.begin();
+	std::string variable = (*firstIt)->getVarName();
+	if ((*firstIt)->getTypeOp() != OperandType::pointer)
+	{
+		return;
+	}
+	if (pointerInits.find(variable) == pointerInits.end())
+	{
+		pointerInits[variable] = pointerInit::uninitialized;
+	}
+	
+	auto secondIt = firstIt++;
+
+	if (((*firstIt)->getTypeOp() == OperandType::pointer) && (((*secondIt)->getTypeOp() == OperandType::address) || ((*secondIt)->getTypeOp() == OperandType::nullptrLiteral)))
+	{
+		pointerInits[variable] = pointerInit::initialized;
+	}
+
+	if (pointerInits[variable] == pointerInit::uninitialized)
+	{
+		error* e = new error();
+		e->type = errorType::unitializedPointer;
+		//e->location = (static_cast<Stmt*>(tetrad->astNode))->getBeginLoc().printToString(g_ast_context->getSourceManager());
+		e->location = "";
+		e->message = "Uninitialized pointer: " + variable;
 		errors.push_back(e);
 	}
 }
