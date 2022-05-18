@@ -136,8 +136,14 @@ void Interpreter::handleAssign(Tetrad* tetrad)
 	auto secondIt = firstIt;
 	secondIt++;
 
-	if (((*firstIt)->getTypeOp() == OperandType::pointer) && (((*secondIt)->getTypeOp() == OperandType::address) || ((*secondIt)->getTypeOp() == OperandType::nullptrLiteral)))
+	if (((*firstIt)->getTypeOp() == OperandType::pointer) && (((*secondIt)->getTypeOp() == OperandType::address)))
 	{
 		pointerInits[variable] = pointerInit::initialized;
+		pointers[variable] = pointerValue::notNull;
+	}
+	if (((*firstIt)->getTypeOp() == OperandType::pointer) && (((*secondIt)->getTypeOp() == OperandType::nullptrLiteral)))
+	{
+		pointerInits[variable] = pointerInit::initialized;
+		pointers[variable] = pointerValue::null;
 	}
 }
