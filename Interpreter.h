@@ -10,7 +10,8 @@
 enum class errorType {
 	other,
 	nullPtrDereference,
-	unitializedPointer
+	unitializedPointer,
+	signedIntegerOverflow
 };
 
 struct error {
@@ -46,6 +47,7 @@ private:
 	void handleTetrad(Tetrad* tetrad);
 	void handleDereference(Tetrad* tetrad);
 	void handleAssign(Tetrad* tetrad);
+	void handleSignedIntegerOverflow(Tetrad* tetrad);
 	void addPointersToTable(Tetrad* tetrad);
 public:
 	Interpreter(controlFlowGraph* cfg);

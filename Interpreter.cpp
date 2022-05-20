@@ -71,13 +71,16 @@ void Interpreter::handleTetrad(Tetrad* tetrad)
 	addPointersToTable(tetrad);
 	if (tetrad->operation == OperationType::assign)
 	{
-		handleAssign(tetrad);//диагностика присваивания
+		handleAssign(tetrad); //обработка присваивания
 	}
 	if (tetrad->operation == OperationType::dereference)
 	{
-		handleDereference(tetrad);
+		handleDereference(tetrad); //обработка разыменования нулевых и неинициализированных указателей
 	}
-	
+	if (tetrad->operation == OperationType::lessThan)
+	{
+		handleSignedIntegerOverflow(tetrad); //обработка переполнения знаковых целых типов
+	}
 }
 
 void Interpreter::addPointersToTable(Tetrad* tetrad)
@@ -145,5 +148,22 @@ void Interpreter::handleAssign(Tetrad* tetrad)
 	{
 		pointerInits[variable] = pointerInit::initialized;
 		pointers[variable] = pointerValue::null;
+	}
+}
+
+void Interpreter::handleSignedIntegerOverflow(Tetrad* tetrad)
+{
+	auto firstIt = tetrad->operands.begin();
+	auto secondIt = firstIt;
+	secondIt++;
+
+	if (((*firstIt)->getTypeOp() == OperandType::integerSum) && (((*secondIt)->getTypeOp() == OperandType::integer)))
+	{
+		error* e = new error();
+		e->type = errorType::nullPtrDereference;
+		//e->location = (static_cast<Stmt*>(tetrad->astNode))->getBeginLoc().printToString(g_ast_context->getSourceManager());
+		e->location = "";
+		e->message = "Possible integer overflow";
+		errors.push_back(e);
 	}
 }
