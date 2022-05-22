@@ -91,13 +91,16 @@ int main() {
     int *p;
     *p = a;
 }*/
+
 int main() 
 {
     long int a, b, c;
-    if (a+b <=c)
+    if (a+b <=110000)
         return -1;
     return 0;
 }
+
+
 /*
 int main() {
     int a = 6;
@@ -182,4 +185,12 @@ void f(int a) {
             sum -= 2 * i;
     
     print(sum);
+}*/
+/*
+int do_fallocate(int offset, int len)
+{
+	if (offset < 0 || len <= 0)
+		return -EINVAL;
+	if ((offset + len > inode->i_sb->s_maxbytes) || (offset + len < 0))
+        return -EFBIG;
 }*/
