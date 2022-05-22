@@ -97,7 +97,7 @@ int main(int argc, const char** argv) {
     interpreter.run();
     for (auto it = interpreter.getErrors().begin(); it != interpreter.getErrors().end(); it++)
     {
-        std::cout << (*it)->location << " : " << (*it)->message << std::endl;
+        std::cout << (*it)->file_name << ":" << (*it)->line << ":" << (*it)->col << ": " << (*it)->message << std::endl;
     }
     return result;
 }

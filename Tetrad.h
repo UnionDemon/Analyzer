@@ -66,16 +66,34 @@ public:
 	void print();
 };
 
+struct Location {
+	int line;
+	int col;
+	std::string fileName;
+};
+
 struct Tetrad
 {
+public:
 	OperationType operation;
 	std::list<Operand*> operands;
-	void* astNode;
 	int labelNumber;
+
+	Location* location;
 
 	void print();
 
 	Tetrad();
+
+	void* getAstNode();
+	void setAstNode(void* node);
+
+
+
+private:
+	void* astNode;
+
+
 };
 
 class pseudoCodeGenerator {

@@ -146,6 +146,8 @@ CompareType invertCompare(CompareType type) {
 	if (type == CompareType::ne) {
 		return CompareType::eq;
 	}
+
+	return CompareType::none;
 }
 
 void controlFlowGraph::createEdges()
