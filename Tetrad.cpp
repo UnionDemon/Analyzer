@@ -231,6 +231,54 @@ void pseudoCodeGenerator::handleAssignment(BinaryOperator* bin_op) {
 	operandsStack.push_back(result);
 }
 
+//создаем тетраду с типом Add
+void pseudoCodeGenerator::handleAdd(BinaryOperator* bin_op) {
+	int childrens = countChildren(bin_op);
+
+	Tetrad* tetrad = new Tetrad();
+	tetrad->astNode = bin_op;
+	//вытягиваем из стека первый и второй операнды, кладем их в тетраду
+	Operand* firstOp = operandsStack.back();
+	operandsStack.pop_back();
+	tetrad->operands.push_front(firstOp);
+
+	Operand* secondOp = operandsStack.back();
+	operandsStack.pop_back();
+	tetrad->operands.push_front(secondOp);
+	tetrad->operation = OperationType::other;
+
+	pseudoCode.push_back(tetrad);
+
+	Operand* result = new Operand(OperandSource::stack, OperandType::other, "", bin_op);
+	//если первый и второй операнды тетрады имеют тип integer, то кладем в стек результат операции и присваиваем OperandType - integerSum
+	if ((firstOp->getTypeOp() == OperandType::integer) && ((secondOp->getTypeOp() == OperandType::integer)))
+	{
+		result->setTypeOp(OperandType::integerSum);
+	}
+	operandsStack.push_back(result);
+}
+//обрабатываем операции меньше и меньше или равно - присваиваем OperationType - lessThan
+void pseudoCodeGenerator::handleLessThanOrEqualTo(BinaryOperator* bin_op)
+{
+	int childrens = countChildren(bin_op);
+
+	Tetrad* tetrad = new Tetrad();
+	tetrad->operation = OperationType::lessThan;
+	tetrad->astNode = bin_op;
+
+	for (int i = 0; i != childrens; i++)
+	{
+		Operand* op = operandsStack.back();
+		operandsStack.pop_back();
+		tetrad->operands.push_front(op);
+	}
+
+	pseudoCode.push_back(tetrad);
+
+	Operand* result = new Operand(OperandSource::stack, OperandType::other, "", bin_op);
+	operandsStack.push_back(result);
+}
+
 void pseudoCodeGenerator::handleValueStmt(ValueStmt* st)
 {
 	//проверка на присваивание - создание новой тетрады с типом Assign
@@ -238,6 +286,16 @@ void pseudoCodeGenerator::handleValueStmt(ValueStmt* st)
 	{
 		if (bin_op->getOpcode() == BO_Assign) {
 			handleAssignment(bin_op);
+			return;
+		}
+		if (bin_op->getOpcode() == BO_Add)
+		{
+			handleAdd(bin_op);
+			return;
+		}
+		if ((bin_op->getOpcode() == BO_LE) || (bin_op->getOpcode() == BO_LT))
+		{
+			handleLessThanOrEqualTo(bin_op);
 			return;
 		}
 	}
@@ -748,7 +806,13 @@ void pseudoCodeGenerator::handleDeclRefExpr(DeclRefExpr* expr)
 	{
 		Operand* result = new Operand(OperandSource::stack, OperandType::pointer, variable, expr);
 		operandsStack.push_back(result);
-	} else {
+	} 
+	else if (expr->getDecl()->getType()->isIntegerType() == true) //проверяем имеет ли операнд тип integer
+	{
+		Operand* result = new Operand(OperandSource::stack, OperandType::integer, variable, expr); 
+		operandsStack.push_back(result);
+	} 
+	else {
 		Operand* result = new Operand(OperandSource::stack, OperandType::other, variable, expr);
 		operandsStack.push_back(result);
 	}
@@ -770,6 +834,11 @@ void pseudoCodeGenerator::handleImplicitCastExpr(ImplicitCastExpr* expr)
 	else if (op->getTypeOp() == OperandType::nullptrLiteral) 
 	{
 		resultOperandType = OperandType::nullptrLiteral;
+	} 
+	else if (op->getTypeOp() == OperandType::integer) //передаем переменную типа integer в тетраду ImplicitCastExpr
+	{
+		resultOperandType = OperandType::integer;
+		resultVarName = op->getVarName();
 	}
 
 	Tetrad* tetrad = new Tetrad();
@@ -816,6 +885,9 @@ void Tetrad::print()
 	if (operation == OperationType::assign) {
 		std::cout << "assign " << " ";
 	}
+	if (operation == OperationType::lessThan) {
+		std::cout << "lessThan " << " ";
+	}
 	if (operation == OperationType::other) {
 		std::cout << "other ";
 	}
@@ -845,6 +917,10 @@ void Operand::print()
 	{
 		std::cout << "pointer ";
 	}
+	if (typeop == OperandType::integer)
+	{
+		std::cout << "integer ";
+	}
 	if (typeop == OperandType::nullptrLiteral)
 	{
 		std::cout << "nullptrLiteral ";
@@ -856,6 +932,9 @@ void Operand::print()
 	if (typeop == OperandType::address)
 	{
 		std::cout << "address ";
+	}
+	if (typeop == OperandType::integerSum) {
+		std::cout << "integerSum " << " ";
 	}
 	if (comparison == CompareType::eq)
 	{

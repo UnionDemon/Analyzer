@@ -15,6 +15,7 @@ enum class OperationType {
 	dereference,
 	returnStmt,
 	assign,
+	lessThan,
 	other
 };
 
@@ -27,7 +28,9 @@ enum class OperandType {
 	pointer,
 	ptrNullCheck,
 	nullptrLiteral,
-	address,
+	address, 
+	integer,
+	integerSum,
 	other
 };
 
@@ -104,6 +107,8 @@ private:
 	void handleImplicitCastExpr(ImplicitCastExpr* expr);
 	void handleNullPtrCheck(BinaryOperator* bin_op, Tetrad* tetrad, Operand* result);
 	void handleAssignment(BinaryOperator* bin_op);
+	void handleAdd(BinaryOperator* bin_op);
+	void handleLessThanOrEqualTo(BinaryOperator* bin_op);
 	void handleReturnStmt(ReturnStmt* st);
 
 	int getOrMakeLabelToSubtreeBeginning(Stmt* subtree);
