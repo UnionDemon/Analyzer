@@ -109,6 +109,7 @@ private:
 	void handleAssignment(BinaryOperator* bin_op);
 	void handleAdd(BinaryOperator* bin_op);
 	void handleLessThanOrEqualTo(BinaryOperator* bin_op);
+	void handleIntegerLiteral(IntegerLiteral* int_lit);
 	void handleReturnStmt(ReturnStmt* st);
 
 	int getOrMakeLabelToSubtreeBeginning(Stmt* subtree);

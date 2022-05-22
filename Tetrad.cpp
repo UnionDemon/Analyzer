@@ -279,6 +279,12 @@ void pseudoCodeGenerator::handleLessThanOrEqualTo(BinaryOperator* bin_op)
 	operandsStack.push_back(result);
 }
 
+void pseudoCodeGenerator::handleIntegerLiteral(IntegerLiteral* int_lit)
+{
+	Operand* result = new Operand(OperandSource::object, OperandType::integer, "", int_lit);
+	operandsStack.push_back(result);
+}
+
 void pseudoCodeGenerator::handleValueStmt(ValueStmt* st)
 {
 	//проверка на присваивание - создание новой тетрады с типом Assign
@@ -300,6 +306,12 @@ void pseudoCodeGenerator::handleValueStmt(ValueStmt* st)
 		}
 	}
 	
+	if (IntegerLiteral* int_lit = dyn_cast<IntegerLiteral>(st))
+	{
+		handleIntegerLiteral(int_lit);
+		return;
+	}
+
 	int childrens = countChildren(st);
 	
 	if (childrens == 0)
