@@ -71,15 +71,15 @@ void Interpreter::handleTetrad(Tetrad* tetrad)
 	addPointersToTable(tetrad);
 	if (tetrad->operation == OperationType::assign)
 	{
-		handleAssign(tetrad); //обработка присваивания
+		handleAssign(tetrad); //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	}
 	if (tetrad->operation == OperationType::dereference)
 	{
-		handleDereference(tetrad); //обработка разыменования нулевых и неинициализированных указателей
+		handleDereference(tetrad); //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	}
 	if (tetrad->operation == OperationType::lessThan)
 	{
-		handleSignedIntegerOverflow(tetrad); //обработка переполнения знаковых целых типов
+		handleSignedIntegerOverflow(tetrad); //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 	}
 }
 
@@ -112,7 +112,19 @@ void Interpreter::handleDereference(Tetrad* tetrad)
 		error* e = new error();
 		e->type = errorType::nullPtrDereference;
 		//e->location = (static_cast<Stmt*>(tetrad->astNode))->getBeginLoc().printToString(g_ast_context->getSourceManager());
-		e->location = "";
+		
+		if (tetrad->location) {
+			e->line = tetrad->location->line;
+			e->col = tetrad->location->col;
+			e->file_name = tetrad->location->fileName;
+		} else {
+			e->line = -1;
+			e->col = -1;
+			e->file_name = std::string();
+		}
+
+
+
 		e->message = "Possible null pointer dereference: " + variable;
 		errors.push_back(e);
 	}
@@ -121,7 +133,18 @@ void Interpreter::handleDereference(Tetrad* tetrad)
 		error* e = new error();
 		e->type = errorType::unitializedPointer;
 		//e->location = (static_cast<Stmt*>(tetrad->astNode))->getBeginLoc().printToString(g_ast_context->getSourceManager());
-		e->location = "";
+		
+		if (tetrad->location) {
+			e->line = tetrad->location->line;
+			e->col = tetrad->location->col;
+			e->file_name = tetrad->location->fileName;
+		} else {
+			e->line = -1;
+			e->col = -1;
+			e->file_name = std::string();
+		}
+
+
 		e->message = "Uninitialized pointer: " + variable;
 		errors.push_back(e);
 	}
@@ -162,7 +185,18 @@ void Interpreter::handleSignedIntegerOverflow(Tetrad* tetrad)
 		error* e = new error();
 		e->type = errorType::nullPtrDereference;
 		//e->location = (static_cast<Stmt*>(tetrad->astNode))->getBeginLoc().printToString(g_ast_context->getSourceManager());
-		e->location = "";
+		
+		if (tetrad->location) {
+			e->line = tetrad->location->line;
+			e->col = tetrad->location->col;
+			e->file_name = tetrad->location->fileName;
+		} else {
+			e->line = -1;
+			e->col = -1;
+			e->file_name = std::string();
+		}
+
+
 		e->message = "Possible integer overflow";
 		errors.push_back(e);
 	}

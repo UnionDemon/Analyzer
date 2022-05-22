@@ -1,6 +1,7 @@
 #include "Tetrad.h"
 #include "clang/AST/AST.h"
 #include "astComplement.h"
+#include "clang/Basic/SourceManager.h"
 
 #include <string>
 #include <iostream>
@@ -10,10 +11,45 @@ extern std::string nodeName(Stmt* node);
 
 // global vars
 extern astComplement g_ast_complement;
+extern ASTContext* g_ast_context;
+
 
 Tetrad::Tetrad() {
 	g_ast_complement.addFakeNode(this);
 	astNode = this;
+}
+
+void* Tetrad::getAstNode() {
+	return astNode;
+}
+
+Location* getLocation(Stmt* node) {
+	auto begLoc = node->getBeginLoc();
+	SourceManager& sm = g_ast_context->getSourceManager();
+
+	auto ploc = sm.getPresumedLoc(begLoc);
+
+	if (ploc.isInvalid()) {
+		return nullptr;
+	}
+
+	Location* foundLoc = new Location();
+	foundLoc->fileName = ploc.getFilename();
+	foundLoc->line = ploc.getLine();
+	foundLoc->col = ploc.getColumn();
+
+	return foundLoc;
+}
+
+void Tetrad::setAstNode(void *astNode_)
+{
+	astNode = astNode_;
+
+	if (g_ast_complement.isFakeNode(astNode)) {
+		return;
+	}
+
+	this->location = getLocation(static_cast<Stmt*>(astNode));
 }
 
 Operand::Operand(OperandSource src, OperandType type, std::string var, Stmt* nd)
@@ -136,7 +172,7 @@ void pseudoCodeGenerator::handleDefaultStatement(Stmt* st) {
 
 	Tetrad* tetrad = new Tetrad();
 	tetrad->operation = OperationType::other;
-	tetrad->astNode = st;
+	tetrad->setAstNode(st);
 
 	//DEBUG
 	std::string node = nodeName(st);
@@ -158,7 +194,7 @@ void pseudoCodeGenerator::handleReturnStmt(ReturnStmt* st)
 
 	Tetrad* tetrad = new Tetrad();
 	tetrad->operation = OperationType::returnStmt;
-	tetrad->astNode = st;
+	tetrad->setAstNode(st);
 
 	for (int i = 0; i < childrens; i++) {
 		Operand* op = operandsStack.back();
@@ -216,7 +252,7 @@ void pseudoCodeGenerator::handleAssignment(BinaryOperator* bin_op) {
 
 	Tetrad* tetrad = new Tetrad();
 	tetrad->operation = OperationType::assign;
-	tetrad->astNode = bin_op;
+	tetrad->setAstNode(bin_op);
 
 	for (int i = 0; i != childrens; i++)
 	{
@@ -236,7 +272,7 @@ void pseudoCodeGenerator::handleAdd(BinaryOperator* bin_op) {
 	int childrens = countChildren(bin_op);
 
 	Tetrad* tetrad = new Tetrad();
-	tetrad->astNode = bin_op;
+	tetrad->setAstNode(bin_op);
 	//вытягиваем из стека первый и второй операнды, кладем их в тетраду
 	Operand* firstOp = operandsStack.back();
 	operandsStack.pop_back();
@@ -264,7 +300,7 @@ void pseudoCodeGenerator::handleLessThanOrEqualTo(BinaryOperator* bin_op)
 
 	Tetrad* tetrad = new Tetrad();
 	tetrad->operation = OperationType::lessThan;
-	tetrad->astNode = bin_op;
+	tetrad->setAstNode(bin_op);
 
 	for (int i = 0; i != childrens; i++)
 	{
@@ -324,7 +360,7 @@ void pseudoCodeGenerator::handleValueStmt(ValueStmt* st)
 	Tetrad* tetrad = new Tetrad();
 
 	tetrad->operation = OperationType::other;
-	tetrad->astNode = st;
+	tetrad->setAstNode(st);
 
 	for (int i = 0; i != childrens; i++)
 	{
@@ -387,7 +423,7 @@ int pseudoCodeGenerator::findElse(IfStmt* st)
 
 	for (auto it = pseudoCode.begin(); it != pseudoCode.end(); it++)
 	{
-		if ((*it)->astNode == firstElseStmt)
+		if ((*it)->getAstNode() == firstElseStmt)
 		{
 			firstElseTetrad = it;
 			break;
@@ -431,7 +467,7 @@ void pseudoCodeGenerator::jmpIfStmt(IfStmt* st)
 	void* lastThenStatement = g_ast_complement.findLastSubtreeNode(thenStmt);
 	auto endOfThenStIterator = pseudoCode.end();
 	for (auto it = pseudoCode.begin(); it != pseudoCode.end(); it++) {
-		if ((*it)->astNode == lastThenStatement) {
+		if ((*it)->getAstNode() == lastThenStatement) {
 			endOfThenStIterator = it;
 			break;
 		}
@@ -479,7 +515,7 @@ void pseudoCodeGenerator::insertTetradAfterSubtree(Stmt* subtree, Tetrad* tetrad
 	auto subtreeEndIterator = pseudoCode.end();
 
 	for (auto it = pseudoCode.begin(); it != pseudoCode.end(); it++) {
-		if ((*it)->astNode == endOfsubtree) {
+		if ((*it)->getAstNode() == endOfsubtree) {
 			subtreeEndIterator = it;
 			break;
 		}
@@ -496,7 +532,7 @@ void pseudoCodeGenerator::FOR_STMT_insertJumpAfterBodySubtree(Stmt* bodySubtree,
 
 	auto endOfBodyIterator = pseudoCode.end();
 	for (auto it = pseudoCode.begin(); it != pseudoCode.end(); it++) {
-		if ((*it)->astNode == endOfBody) {
+		if ((*it)->getAstNode() == endOfBody) {
 			endOfBodyIterator = it;
 			break;
 		}
@@ -532,7 +568,7 @@ void pseudoCodeGenerator::FOR_STMT_insertJumpsAfterCondSubtree(Stmt* condSubtree
 	
 	auto endOfCondIterator = pseudoCode.end();
 	for(auto it = pseudoCode.begin(); it != pseudoCode.end(); it++) {
-		if ((*it)->astNode == endOfCond) {
+		if ((*it)->getAstNode() == endOfCond) {
 			endOfCondIterator = it;
 			break;
 		}
@@ -583,7 +619,7 @@ int pseudoCodeGenerator::getOrMakeLabelToSubtreeBeginning(Stmt* subtree) {
 
 	auto beginningIt = pseudoCode.end();
 	for (auto it = pseudoCode.begin(); it != pseudoCode.end(); it++) {
-		if ((*it)->astNode == beginningStmt) {
+		if ((*it)->getAstNode() == beginningStmt) {
 			beginningIt = it;
 			break;
 		}
@@ -613,7 +649,7 @@ int pseudoCodeGenerator::findOrMakeLabel(Stmt* st)
 	auto bodyBegin = pseudoCode.end();
 	for (auto it = pseudoCode.begin(); it != pseudoCode.end(); it++)
 	{
-		if ((*it)->astNode == st)
+		if ((*it)->getAstNode() == st)
 		{
 			bodyBegin = it;
 			break;
@@ -702,7 +738,7 @@ int pseudoCodeGenerator::getWhileCondLabel(Stmt* cond)
 	auto condBeginningIterator = pseudoCode.end();
 	for (auto it = pseudoCode.begin(); it != pseudoCode.end(); it++)
 	{
-		if ((*it)->astNode == condBeginning)
+		if ((*it)->getAstNode() == condBeginning)
 		{
 			condBeginningIterator = it;
 			break;
@@ -753,7 +789,7 @@ Tetrad* pseudoCodeGenerator::makeJmpOnFalseTetrad(void* conditionSt, int labelNu
 	auto cond = pseudoCode.end();
 	for (auto it = pseudoCode.begin(); it != pseudoCode.end(); it++)
 	{
-		if ((*it)->astNode == conditionSt) {
+		if ((*it)->getAstNode() == conditionSt) {
 			cond = it;
 			break;
 		}
@@ -796,7 +832,7 @@ void pseudoCodeGenerator::handleUnaryOperator(UnaryOperator* op)
 	{
 		tetrad->operation = OperationType::other;
 	}
-	tetrad->astNode = op;
+	tetrad->setAstNode(op);
 
 	for (int i = 0; i < childrens; i++) {
 		Operand* op = operandsStack.back();
@@ -855,7 +891,7 @@ void pseudoCodeGenerator::handleImplicitCastExpr(ImplicitCastExpr* expr)
 
 	Tetrad* tetrad = new Tetrad();
 	tetrad->operation = OperationType::other;
-	tetrad->astNode = expr;
+	tetrad->setAstNode(expr);
 	tetrad->operands.push_back(op);
 
 	pseudoCode.push_back(tetrad);

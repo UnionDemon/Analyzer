@@ -16,7 +16,9 @@ enum class errorType {
 
 struct error {
 	errorType type;
-	std::string location;
+	int line;
+	int col;
+	std::string file_name;
 	std::string message;
 };
 
@@ -40,7 +42,7 @@ private:
 
 	std::map<int, bool> visitedBlock;
 	std::map<std::string, pointerValue> pointers;
-	std::map<std::string, pointerInit> pointerInits; //создаем map для сопоставления указателей и того, являются ли они инициализированными
+	std::map<std::string, pointerInit> pointerInits; //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ map пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	void init();
 	void walkOnGraph(BasicBlock* bb);
 	void interpretTetrads(const std::list<Tetrad*>& tetrads);
