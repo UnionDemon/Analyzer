@@ -119,7 +119,7 @@ void pseudoCodeGenerator::handleStatement(Stmt* st)
 		handleImplicitCastExpr(implicit_cast_expr);
 		return;
 	}
-	
+
 	if (CXXNullPtrLiteralExpr* nullptr_stmt = dyn_cast<CXXNullPtrLiteralExpr>(st))
 	{
 		handleNullptrLiteral(nullptr_stmt);
@@ -242,6 +242,18 @@ void pseudoCodeGenerator::handleNullPtrCheck(BinaryOperator* bin_op, Tetrad* tet
 	result->setCompareType(compare);
 }
 
+/*void pseudoCodeGenerator::handleRecoveryExpr(RecoveryExpr* expr, Tetrad* tetrad, Operand* result)
+{
+	auto operandIt = tetrad->operands.begin();
+	if ((*operandIt)->getTypeOp() != OperandType::pointer) {
+		return;
+	}
+	std::string ptrName = (*operandIt)->getVarName();
+
+	result->setTypeOp(OperandType::pointer);
+	result->setVarName(ptrName);
+}*/
+
 void pseudoCodeGenerator::handleNullptrLiteral(CXXNullPtrLiteralExpr* st) {
 	Operand* result = new Operand(OperandSource::object, OperandType::nullptrLiteral, "", st);
 	operandsStack.push_back(result);
@@ -321,6 +333,36 @@ void pseudoCodeGenerator::handleIntegerLiteral(IntegerLiteral* int_lit)
 	operandsStack.push_back(result);
 }
 
+void pseudoCodeGenerator::handleMemberExpr(MemberExpr* expr)
+{
+	int childrens = countChildren(expr);
+
+	Tetrad* tetrad = new Tetrad();
+	if (expr->isArrow())
+	{
+		tetrad->operation = OperationType::arrowDeref;
+	}
+	else
+	{
+		tetrad->operation = OperationType::other;
+	}
+	
+	tetrad->setAstNode(expr);
+
+	for (int i = 0; i != childrens; i++)
+	{
+		Operand* op = operandsStack.back();
+		operandsStack.pop_back();
+		tetrad->operands.push_front(op);
+	}
+
+	pseudoCode.push_back(tetrad);
+
+	Operand* result = new Operand(OperandSource::stack, OperandType::other, "", expr);
+	operandsStack.push_back(result);
+}
+
+
 void pseudoCodeGenerator::handleValueStmt(ValueStmt* st)
 {
 	//проверка на присваивание - создание новой тетрады с типом Assign
@@ -345,6 +387,12 @@ void pseudoCodeGenerator::handleValueStmt(ValueStmt* st)
 	if (IntegerLiteral* int_lit = dyn_cast<IntegerLiteral>(st))
 	{
 		handleIntegerLiteral(int_lit);
+		return;
+	}
+
+	if (MemberExpr* memb_expr = dyn_cast<MemberExpr>(st))
+	{
+		handleMemberExpr(memb_expr);
 		return;
 	}
 
@@ -377,6 +425,11 @@ void pseudoCodeGenerator::handleValueStmt(ValueStmt* st)
 	{
 		handleNullPtrCheck(bin_op, tetrad, result);
 	}
+
+	/*if (RecoveryExpr* recovery_expr = dyn_cast<RecoveryExpr>(st))
+	{
+		handleRecoveryExpr(recovery_expr, tetrad, result);
+	}*/
 
 	operandsStack.push_back(result);
 }
@@ -935,6 +988,9 @@ void Tetrad::print()
 	}
 	if (operation == OperationType::lessThan) {
 		std::cout << "lessThan " << " ";
+	}
+	if (operation == OperationType::arrowDeref) {
+		std::cout << "arrowDeref " << " ";
 	}
 	if (operation == OperationType::other) {
 		std::cout << "other ";

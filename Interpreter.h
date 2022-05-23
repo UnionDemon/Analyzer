@@ -42,12 +42,13 @@ private:
 
 	std::map<int, bool> visitedBlock;
 	std::map<std::string, pointerValue> pointers;
-	std::map<std::string, pointerInit> pointerInits; //������� map ��� ������������� ���������� � ����, �������� �� ��� �������������������
+	std::map<std::string, pointerInit> pointerInits; 
 	void init();
 	void walkOnGraph(BasicBlock* bb);
 	void interpretTetrads(const std::list<Tetrad*>& tetrads);
 	void handleTetrad(Tetrad* tetrad);
 	void handleDereference(Tetrad* tetrad);
+	void handleDereferenceArrow(Tetrad* tetrad);
 	void handleAssign(Tetrad* tetrad);
 	void handleSignedIntegerOverflow(Tetrad* tetrad);
 	void addPointersToTable(Tetrad* tetrad);

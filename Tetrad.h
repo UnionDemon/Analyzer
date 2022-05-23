@@ -16,6 +16,7 @@ enum class OperationType {
 	returnStmt,
 	assign,
 	lessThan,
+	arrowDeref,
 	other
 };
 
@@ -124,9 +125,11 @@ private:
 	void handleDeclRefExpr(DeclRefExpr* expr);
 	void handleImplicitCastExpr(ImplicitCastExpr* expr);
 	void handleNullPtrCheck(BinaryOperator* bin_op, Tetrad* tetrad, Operand* result);
+	//void handleRecoveryExpr(RecoveryExpr* expr, Tetrad* tetrad, Operand* result);
 	void handleAssignment(BinaryOperator* bin_op);
 	void handleAdd(BinaryOperator* bin_op);
 	void handleLessThanOrEqualTo(BinaryOperator* bin_op);
+	void handleMemberExpr(MemberExpr* expr);
 	void handleIntegerLiteral(IntegerLiteral* int_lit);
 	void handleReturnStmt(ReturnStmt* st);
 
@@ -142,7 +145,5 @@ private:
 public:
 	void handleStatement(Stmt* st);
 	void print();
-	//void* findFirst(void* st);
-	//void* findLast(void* st);
 	std::list<Tetrad*> getPseudoCode();
 };

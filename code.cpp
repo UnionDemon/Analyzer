@@ -91,14 +91,14 @@ int main() {
     int *p;
     *p = a;
 }*/
-
+/*переполнение знаковых целых типов
 int main() 
 {
     long int a, b, c;
-    if (a+b <=110000)
+    if (a+b <=0)
         return -1;
     return 0;
-}
+}*/
 
 
 /*
@@ -186,11 +186,115 @@ void f(int a) {
     
     print(sum);
 }*/
-/*
-int do_fallocate(int offset, int len)
+//пример из линукса на переполнение знаковых целых типов
+typedef int loff_t;
+int vfs_fallocate(struct file *file, int mode, loff_t offset, loff_t len)
 {
-	if (offset < 0 || len <= 0)
+	struct inode *inode = file_inode(file);
+    if (offset < 0 || len <= 0)
 		return -EINVAL;
+	/* Check for wrap through zero too */
 	if ((offset + len > inode->i_sb->s_maxbytes) || (offset + len < 0))
         return -EFBIG;
+}
+
+//пример из линукса на разыменование нулевого и неинициализированного указателя
+/*
+struct sock {
+  void* data;
+};
+ 
+struct tun_struct {
+unsigned int 		flags;
+  sock* sk;
+};
+ 
+struct tun_file {
+	struct tun_struct *tun;
+};
+ 
+struct file {
+  tun_file* private_data;
+};
+ 
+struct poll_table {
+  void* data;
+};
+ 
+extern tun_struct* __tun_get(tun_file* file);
+ 
+#define POLLERR -1
+ 
+static unsigned int tun_chr_poll(struct file *file, poll_table * wait)
+{
+	struct tun_file *tfile = file->private_data;
+	struct tun_struct *tun = __tun_get(tfile);
+	
+	if (tun == nullptr) {
+	    return -1;
+	}
+	
+	struct sock *sk = tun->sk;
+	unsigned int mask = 0;
+ 
+	if (!tun)
+		return POLLERR;
+ 
+	return 0;
+}
+*/
+
+/*
+static int podhd_try_init(struct usb_interface *interface, struct usb_line6_podhd *podhd)
+{
+  int err;
+  struct usb_line6 *line6 = &podhd->line6;
+
+  if ((interface == NULL) || (podhd == NULL))
+    return -ENODEV;
 }*/
+/*
+void refresh(int* frameCount)
+{
+    if (frameCount != nullptr) {
+        ++(*frameCount); // прямо вот тут грохалась из-за разыменования nullptr
+    }
+}*/
+
+/*
+struct student {
+    char name[80];
+    int age;
+    float percentage;
+};
+int main()
+{
+    struct student* emp;
+    emp->age = 18;
+    return 0;
+}
+*/
+/*
+struct FILE_DESCR {
+    int id;
+    const char* file_name;
+};
+ 
+extern const char* read(int fd);
+extern void print(const char* str);
+ 
+void f(FILE_DESCR* fd)
+{
+    
+    if (fd == nullptr) {
+        return;
+    }
+    
+    const char* input;
+    input = read(fd->id);
+ 
+    print(input);
+}
+*/
+  
+  

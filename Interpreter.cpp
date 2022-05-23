@@ -71,15 +71,19 @@ void Interpreter::handleTetrad(Tetrad* tetrad)
 	addPointersToTable(tetrad);
 	if (tetrad->operation == OperationType::assign)
 	{
-		handleAssign(tetrad); //��������� ������������
+		handleAssign(tetrad); 
 	}
 	if (tetrad->operation == OperationType::dereference)
 	{
-		handleDereference(tetrad); //��������� ������������� ������� � �������������������� ����������
+		handleDereference(tetrad); 
+	}
+	if (tetrad->operation == OperationType::arrowDeref)
+	{
+		handleDereferenceArrow(tetrad);
 	}
 	if (tetrad->operation == OperationType::lessThan)
 	{
-		handleSignedIntegerOverflow(tetrad); //��������� ������������ �������� ����� �����
+		handleSignedIntegerOverflow(tetrad); 
 	}
 }
 
@@ -111,8 +115,6 @@ void Interpreter::handleDereference(Tetrad* tetrad)
 	{
 		error* e = new error();
 		e->type = errorType::nullPtrDereference;
-		//e->location = (static_cast<Stmt*>(tetrad->astNode))->getBeginLoc().printToString(g_ast_context->getSourceManager());
-		
 		if (tetrad->location) {
 			e->line = tetrad->location->line;
 			e->col = tetrad->location->col;
@@ -122,9 +124,6 @@ void Interpreter::handleDereference(Tetrad* tetrad)
 			e->col = -1;
 			e->file_name = std::string();
 		}
-
-
-
 		e->message = "Possible null pointer dereference: " + variable;
 		errors.push_back(e);
 	}
@@ -132,8 +131,6 @@ void Interpreter::handleDereference(Tetrad* tetrad)
 	{
 		error* e = new error();
 		e->type = errorType::unitializedPointer;
-		//e->location = (static_cast<Stmt*>(tetrad->astNode))->getBeginLoc().printToString(g_ast_context->getSourceManager());
-		
 		if (tetrad->location) {
 			e->line = tetrad->location->line;
 			e->col = tetrad->location->col;
@@ -143,8 +140,47 @@ void Interpreter::handleDereference(Tetrad* tetrad)
 			e->col = -1;
 			e->file_name = std::string();
 		}
+		e->message = "Uninitialized pointer: " + variable;
+		errors.push_back(e);
+	}
+}
 
-
+void Interpreter::handleDereferenceArrow(Tetrad* tetrad)
+{
+	auto firstIt = tetrad->operands.begin();
+	std::string variable = (*tetrad->operands.begin())->getVarName();
+	pointerValue val = pointers[variable];
+	if (((*firstIt)->getTypeOp() == OperandType::pointer) && ((val == pointerValue::null) || (val == pointerValue::any)))
+	{
+		error* e = new error();
+		e->type = errorType::nullPtrDereference;
+		if (tetrad->location) {
+			e->line = tetrad->location->line;
+			e->col = tetrad->location->col;
+			e->file_name = tetrad->location->fileName;
+		}
+		else {
+			e->line = -1;
+			e->col = -1;
+			e->file_name = std::string();
+		}
+		e->message = "Possible null pointer dereference: " + variable;
+		errors.push_back(e);
+	}
+	if (pointerInits[variable] == pointerInit::uninitialized)
+	{
+		error* e = new error();
+		e->type = errorType::unitializedPointer;
+		if (tetrad->location) {
+			e->line = tetrad->location->line;
+			e->col = tetrad->location->col;
+			e->file_name = tetrad->location->fileName;
+		}
+		else {
+			e->line = -1;
+			e->col = -1;
+			e->file_name = std::string();
+		}
 		e->message = "Uninitialized pointer: " + variable;
 		errors.push_back(e);
 	}
